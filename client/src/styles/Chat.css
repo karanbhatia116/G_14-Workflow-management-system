@@ -118,6 +118,9 @@
 .chat__footer>form>button{
     display: none;
 }
+aside.emoji-picker-react{
+    display: none;
+}
 .MuiIconButton-root{
     border:none;
     outline: none;

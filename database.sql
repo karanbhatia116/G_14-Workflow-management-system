@@ -1,0 +1,6 @@
+CREATE TABLE chat(
+    msg VARCHAR PRIMARY KEY,
+    username VARCHAR NOT NULL,
+    time TIMESTAMP NOT NULL,
+    room VARCHAR NOT NULL
+);
