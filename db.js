@@ -13,8 +13,12 @@ const devConfig = {
 
 const productionConfig = {
     connectionString: process.env.DATABASE_URL,  //from heroku addon 
+    ssl: {
+        rejectUnauthorized: false
+    }
 }
 const pool = new Pool(process.env.NODE_ENV === "production"?productionConfig : devConfig);
+// const pool  = new Pool(productionConfig);
 //     connectionString: process.env.DATABASE_URL,
 //     user: process.env.DATABASE_USER,
 //     password:process.env.DATABASE_PASSWORD,

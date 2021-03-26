@@ -21,7 +21,7 @@ function Chat(props) {
     const s = socket;
     // const url = (process.env.NODE_ENV==="production" ? "https://thawing-dawn-49846.herokuapp.com/" : "http://localhost:3000/");
     // console.log(process.env.NODE_ENV,url);
-    const url = "http://localhost:4000/discussion";
+    const url = "/discussion";
     const userDetail={
         username:"abc",
         photoUri: "123",
@@ -36,7 +36,8 @@ function Chat(props) {
         } 
     }
 
-    useEffect(() => {
+    useEffect(async () => {
+        
         axios.get(url).then((res)=>{
             setMessages([]);
             if(res.data !== "")

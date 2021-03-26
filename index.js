@@ -2,6 +2,7 @@ const express = require('express');
 const app = require('express')();
 const http = require('http').Server(app);
 const bodyParser = require('body-parser');
+const path = require('path');
 const PORT = process.env.PORT || 4000;
 const io = require('socket.io')(http, {
     cors:{
@@ -14,7 +15,11 @@ var msgs = [];
 const cors = require('cors');
 app.use(cors());
 app.use(express.json());
-app.use(express.static('../../public'));
+if(process.env.NODE_ENV === "production")
+{
+  app.use(express.static(path.join(__dirname, "client/build")));
+}
+
 io.on("connection", (socket) => {
   console.log(socket.id);
   console.log('\n');
@@ -51,6 +56,9 @@ app.get('/discussion', async(req,res)=>{
     res.status(200);
     else
         res.status(200).send(msgs);
+});
+app.get("*", (req,res)=>{
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
 });
 http.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
