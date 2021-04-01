@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Grid, Button, FormControl, OutlinedInput, InputLabel, FormHelperText, InputAdornment, IconButton } from "@material-ui/core";
+import { Grid, Button, FormControl, OutlinedInput, InputLabel, FormHelperText, InputAdornment, IconButton, Card } from "@material-ui/core";
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 function ForgotPassword() {
@@ -70,10 +70,6 @@ function ForgotPassword() {
 
     function changePwd(e) {
         e.preventDefault();
-        // const response = await axios.post(
-        //     "http://blogservice.herokuapp.com/api/login",
-        //     user
-        // );
         if (user === "" || newpwd === "" || confirmpwd === "") {
             if (user === "") {
                 setUserWarning("username is required.");
@@ -117,11 +113,35 @@ function ForgotPassword() {
             return;
         }
         //code for changing password
+        fetch('http://localhost:4000/changepwd', {
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user, newpwd })
+        })
+            .then(response => {
+                return response.status;
+            })
+            .then(status => {
+                if (status === 500) {
+                    setNewPwd("");
+                    setConfirmPwd("");
+                    setUsername("");
+                    setUserWarning("Username is Invalid.");
+                } else if (status === 200) {
+                    setUsername("");
+                    setNewPwd("");
+                    setConfirmPwd("");
+                    console.log("Password SucessFul");
+                }
+            });
     }
 
     return (
         <form noValidate autoComplete="off" name="authentication-form">
-            <Grid color="secondary">
+            <Card variant="outlined">
                 <Grid container item direction="column" justify="center" alignItems="center" xs={12} style={{ padding: "1em" }}>
                     <FormControl fullWidth>
                         <InputLabel htmlFor="username" variant="outlined" error={userWarning !== ""}>Username</InputLabel>
@@ -192,12 +212,12 @@ function ForgotPassword() {
                         <FormHelperText id="my-helper-text-pwd" error={confirmPwdWarning !== ""}>{confirmPwdWarning}</FormHelperText>
                     </FormControl>
                 </Grid>
-                <Grid container item direction="column" justify="center" alignItems="center" xs={12} >
-                    <Button variant="contained" color="primary" onClick={changePwd}>
+                <Grid container item direction="column" justify="center" alignItems="center" xs={12} style={{ padding: "1em" }}>
+                    <Button variant="contained" style={{ backgroundColor: "#007BFF", color: "#FFFFFF" }} onClick={changePwd}>
                         Submit
                     </Button>
                 </Grid>
-            </Grid>
+            </Card>
         </form>
     );
 }

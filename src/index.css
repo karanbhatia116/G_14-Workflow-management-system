@@ -8,7 +8,7 @@
     --link-color-1: #B3ECF5;
     --link-color-2: #F9DEC2;
     --link-color-3: #FFFFFF;
-    --base-color-1: #3F51F5;
+    --base-color-1: #007BFF;
     --base-color-2: #009EFA;
     --base-color-3: #00D2FC;
 }
@@ -40,6 +40,7 @@ body{
     justify-content: flex-end;
     color: var(--link-color-2);
     background-color: var(--base-color-1);
+    z-index: 5;
 }
 
 .header-section header{
@@ -67,6 +68,7 @@ body{
     top: 0em;
     background-color: var(--base-color-1);
     color: var(--link-color-2);
+    z-index: 5;
 }
 
 .nav .navbar-open{

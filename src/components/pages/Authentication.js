@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Modal, NavLink } from "react-bootstrap";
-import LogIn from "./LogIn";
-import ForgotPassword from "./ForgotPassword";
+import LogIn from "../layouts/LogIn";
+import ForgotPassword from "../layouts/ForgotPassword";
 
-function Authentication(props) {
+function Authentication() {
 
     //modal page state is declared which renders the appropriate page for user. 
     
@@ -39,7 +39,7 @@ function Authentication(props) {
             </Modal.Header>
 
             <Modal.Body className="authentication-body">
-                <LogIn handlelogin={ props.handlelogin } />
+                <LogIn/>
             </Modal.Body>
 
             <Modal.Footer>
@@ -61,7 +61,7 @@ function Authentication(props) {
             </Modal.Header>
 
             <Modal.Body className="authentication-body">
-                <LogIn handlelogin={props.handlelogin} />
+                <LogIn/>
             </Modal.Body>
 
             <Modal.Footer>

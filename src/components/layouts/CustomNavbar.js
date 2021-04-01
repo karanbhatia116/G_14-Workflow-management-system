@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { userStore } from "../storage/store";
+import { USER_LOGOUT } from "../storage/actiontype";
 
 function CustomNavbar(props) {
 
-    //checks whether the navbar is open or close for smaller screen
+    //checks whether the navbar is open or close for smaller screen(screen size < 978px)
     const [collapse, setCollapse] = useState(false);
 
     //which link is active at the moment
@@ -19,9 +21,11 @@ function CustomNavbar(props) {
         }
     };
 
-    //logout the user from the system
+    //logout the user from the system and remove from global storage using the dispatch
     function handleLogout() {
-        props.handlelogin(false);
+        userStore.dispatch({
+            type: USER_LOGOUT
+        });
         window.localStorage.removeItem("user");
     };
 
@@ -43,7 +47,7 @@ function CustomNavbar(props) {
             <nav className="nav">
                 {/* collapse button to close and open navbar at small screens */}
                 <div>
-                    <svg className={"ham-menu" + (collapse ? " ham-active" : "")} viewBox="0 0 100 100" onClick={() => setCollapse(collapse ? false : true)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className={"ham-menu" + (collapse ? " ham-active" : "")} viewBox="0 0 100 100" onClick={() => setCollapse(collapse ? false : true)}>
                         <path className="line top" d="m 30 30 h 40 c 0 0 15 10 0 20 h -20 v -20" />
                         <path className="line mid" d="m 30 50 h 40" />
                         <path className="line bottom" d="m 70 70 h -40 c 0 0 -15 -10 0 -20 h 20 v 20" />

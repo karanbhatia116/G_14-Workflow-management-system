@@ -13,7 +13,7 @@ function NotFound() {
                 </h3>
                 <p>
                     {/* link to the home page. */}
-                    Please go to <NavLink to="/Home">Home page</NavLink>.
+                    Please go to <NavLink to="/">Home page</NavLink>.
                 </p>
             </div>
             <div>
