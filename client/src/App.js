@@ -8,16 +8,19 @@ import Discussion from "./components/pages/Discussion";
 // import io from 'socket.io-client';
 import socket from "../src/components/utils/socket";
 const App = () =>{
+	    
+		//getting the socket defined in socket.js
 		const s = socket;
 		const [newNotification, setNewNotification] = useState({msg: "", sender: ""});
 		const [read, setRead] = useState(false);
+		//runs for the first time when rendered
 		useEffect(() =>{
 		console.log("new notification: " + newNotification.msg);
 			s.on("receive-notification", async (data)=>{
 			await setNewNotification(data);
 			});
 			s.open();
-		})
+		},[]);
 		return (
 			<div>
 				<Authentication></Authentication>

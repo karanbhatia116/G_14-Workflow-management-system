@@ -1,0 +1,49 @@
+.list__container{
+    margin-top: 0%;
+    margin-left: 1.5%;
+    margin-right: 0.5%;
+    min-width: 320px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.list__header{
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.list__title{
+    justify-content: center;
+    font-size: larger;
+    font-weight: bold;
+}
+.list{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 400px;
+    overflow: scroll;
+}
+.list__dragging__over{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 400px;
+    overflow: scroll;
+    background-color: lightblue;
+}
+.dummy__container{
+    width:100%;
+}
+.dummy__container__dragging{
+    width: 100%;
+    background-color: lightgreen;
+}
+.list__add{
+    display: flex;
+    justify-content: space-between;
+}
+.MuiButton-root{
+    margin-left: 20px;
+    color:white;
+    background-color: rgb(15, 170, 30);
+}
