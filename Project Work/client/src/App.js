@@ -1,4 +1,4 @@
-//import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Switch, Route, Redirect, withRouter } from "react-router-dom";
 import CustomNavbar from "./components/layouts/CustomNavbar";
 import Authentication from "./components/pages/Authentication";

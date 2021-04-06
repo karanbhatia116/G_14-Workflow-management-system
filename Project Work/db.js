@@ -17,7 +17,11 @@ const productionConfig = {
         rejectUnauthorized: false
     }
 }
+<<<<<<< HEAD
 // const pool = new Pool(process.env.NODE_ENV === "production"?productionConfig : devConfig);
+=======
+//const pool = new Pool(process.env.NODE_ENV === "production"?productionConfig : devConfig);
+>>>>>>> 24d894a00998d53d20f2741f7ab6610f7efb6c21
 const pool  = new Pool(productionConfig);
 //     connectionString: process.env.DATABASE_URL,
 //     user: process.env.DATABASE_USER,
