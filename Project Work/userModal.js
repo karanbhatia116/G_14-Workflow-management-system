@@ -3,8 +3,8 @@ const pool = require('./db');
 
 const findUser = (body) => {
     return new Promise(function (resolve, reject) {
-        const { search } = body;
-        pool.query(`SELECT username, usertype FROM users WHERE username LIKE '${search}%';`, (error, results) => {
+        const {search} = body;
+        pool.query(`SELECT username, usertype FROM users WHERE username LIKE '${search}%' and '${search}'<>'';`, (error, results) => {
             if (error) {
                 reject(error);
             }

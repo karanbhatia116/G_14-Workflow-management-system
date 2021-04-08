@@ -1,6 +1,6 @@
 import { Container } from "@material-ui/core";
 import { Grid, FormControl, OutlinedInput, InputLabel, FormHelperText, InputAdornment, IconButton } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useRef, useEffect} from "react";
 
 function SearchBar() {
     //Store the value of the search bar
@@ -11,9 +11,10 @@ function SearchBar() {
     //Shows the error
     const [searchWarning, setsearchWarning] = useState("");
 
-    function handleChange(e) {
-        setSearch(e.target.value);
-
+    useEffect(() => {
+        handleChange();
+    }, [search]);
+    function handleChange() {
         //fetch data from the users database using fetch API
         fetch('http://localhost:4000/finduser', {
             method: 'POST',
@@ -56,7 +57,7 @@ function SearchBar() {
                             error={searchWarning !== ""}
                             aria-describedby="my-helper-text-searchbar"
                             value={search}
-                            onChange={handleChange}
+                            onChange={(e)=>setSearch(e.target.value)}
                             autoComplete="off"
                             endAdornment={
                                 <InputAdornment>

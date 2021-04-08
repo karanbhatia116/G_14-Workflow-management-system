@@ -78,14 +78,7 @@ body{
 .nav .navbar-close{
     display: none;
 }
-.nav-container{
-    max-height: 70px;
-}
-@media screen and (max-width:700px){
-    .nav-container{
-        max-height: fit-content;
-    }
-}
+
 .nav div:nth-child(2) .nav-link{
     color: var(--link-color-1);
     font-weight: 500;
@@ -220,8 +213,9 @@ body{
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: var(--link-color-2);
+    background-color: #F1FAFF;
     color: var(--base-color-1);
+    font-size: 1em;
 }
 
 .notfound div{
@@ -241,7 +235,23 @@ body{
         padding: 1em;
     }
 }
-
+@keyframes up-down {
+    0% {
+        transform: translateY(4px);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+.svg-animated{
+    animation: up-down 0.5s ease-in-out infinite alternate-reverse both;
+}
+@media screen and (max-width:768px){
+    .svg-animated{
+        animation: none;
+    }
+   
+}
 /**************************************************
 *******************Authentication******************
 **************************************************/
@@ -281,5 +291,19 @@ body{
     }
     .forgot__text{
         margin-right: 0em;
+    }
+}
+.nav-container{
+    max-height: 70px;
+    position: relative;
+    z-index: 2;
+    overflow-x: hidden;
+}
+@media screen and (max-width:992px){
+    .nav-container{
+        max-height: fit-content;
+        position: relative;
+        z-index: 2;
+        overflow-x: hidden;
     }
 }

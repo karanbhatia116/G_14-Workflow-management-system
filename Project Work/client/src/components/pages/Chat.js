@@ -10,7 +10,6 @@ import socket from '../utils/socket'
 import axios from "axios";
 import Picker from 'emoji-picker-react';
 import {userStore} from '../storage/store';
-
 function Chat(props) {
     const userName=userStore.getState().loggedInUser.username;
     const [input,setInput] = useState('');
@@ -18,7 +17,9 @@ function Chat(props) {
     const [pickerVisible, setPickerVisible] = useState(false);
     const s = socket;
     const url = "/discussion";
-
+    const picker = useRef();
+    const emojiButton = useRef();
+    let width = window.innerWidth;
     window.onbeforeunload =()=>{
         if(s.connected){
             s.disconnect();
@@ -32,14 +33,10 @@ function Chat(props) {
             if(res.data !== "")
             {
                 res.data.map((obj, i)=>{
-                    console.log(obj);
                     setMessages(msgs=>[...msgs, obj]);
                 });
             }
             
-        })
-        s.on("new-connection", ()=>{
-            console.log("New connection");
         });
         s.on("receive-chat-msg", (data)=>{
             if(data!=="")
@@ -47,8 +44,17 @@ function Chat(props) {
         });
         s.emit("joined-chat-room", {msg:"hello this is a message"});
     },[]);
-
     
+    useEffect(() => {
+        function handler(event) {
+            if(!picker.current?.contains(event.target) && !emojiButton.current?.contains(event.target)) {
+               setPickerVisible(false);
+            }
+        }
+        window.addEventListener('click', handler)
+        return () => window.removeEventListener('click', handler)
+    }, [])
+
     const emojiClickHandler = (e)=>{
         setPickerVisible(!pickerVisible);
     }
@@ -79,10 +85,7 @@ function Chat(props) {
             headers: {
                 'Content-Type':'application/json'
             }
-        }).then((res)=>{
-            console.log(res.data);
         });
-
        setInput("");
     }
     return (
@@ -100,7 +103,10 @@ function Chat(props) {
                         ${userName === message.username && 'bubble__bottom__right'}
                         ${userName!== message.username && 'bubble__top__left'}`
                         }>
-                            <span className='chat__name'>{message.username}</span>
+                            {userName === message.username ? (
+                                <span className={'chat__name left'}></span>
+                            ): <span className={'chat__name right'}><i className={'fa fa-circle other'}></i>{message.username}</span>}
+                           
                             {message.msg}
                             <span className='chat__timestamp'>{new Date(message.time).toLocaleString('en-US', 
                             {
@@ -116,7 +122,7 @@ function Chat(props) {
                 
             </div>
             <div className='chat__footer'>
-                <IconButton onClick = {emojiClickHandler}>
+                <IconButton onClick = {emojiClickHandler} innerRef={emojiButton}>
                     <EmojiEmotionsOutlinedIcon></EmojiEmotionsOutlinedIcon>
                 </IconButton>
                 <form>
@@ -128,11 +134,32 @@ function Chat(props) {
                  <FileButton></FileButton>
                 </IconButton>
             </div>
-            
+            {pickerVisible && width===768?(
+                    <div ref={picker}>
+                    <Picker pickerStyle = {{width: '30%', position: 'absolute', bottom: '7%', left: '2rem'}} preload = {true} onEmojiClick = {onEmojiClick} innerRef={picker}></Picker>
+                    </div>
+            ):null}
+            {pickerVisible && width>750 && width!==768?(
+                    <div ref={picker}>
+                    <Picker pickerStyle = {{width: '30%', position: 'absolute', bottom: '13%', left: '2rem'}} preload = {true} onEmojiClick = {onEmojiClick} innerRef={picker}></Picker>
+                    </div>
+            ):null}
+            {pickerVisible && width<750 && width>500?(
+                <div ref={picker}>
+                    <Picker pickerStyle = {{width: '50%', position: 'absolute', bottom: '4%', left: '2rem'}} preload = {true} onEmojiClick = {onEmojiClick} innerRef={picker}></Picker>
+                </div>
+            ):null}
+            {pickerVisible && width<500 && width>400?(
+                <div ref={picker}>
+                    <Picker pickerStyle = {{width: '63%', position: 'absolute', bottom: '7%', left: '1rem'}} preload = {true} onEmojiClick = {onEmojiClick} innerRef={picker}></Picker>
+                </div>
+            ):null}
+            {pickerVisible && width<400?(
+                <div ref={picker}>
+                    <Picker pickerStyle = {{width: '64%', position: 'absolute', bottom: '3%', left: '1rem', height: '35%'}} preload = {true} onEmojiClick = {onEmojiClick} ref={picker}></Picker>
+                </div>
+            ):null}
         </div>
-        {pickerVisible?(
-             <Picker pickerStyle = {{width: '30%', position: 'absolute', bottom: '6em', left: '2rem'}} preload = {true} onEmojiClick = {onEmojiClick}></Picker>
-        ): null}
         </>
     )
 }

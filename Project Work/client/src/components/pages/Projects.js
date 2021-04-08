@@ -15,6 +15,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import {Typography,IconButton} from '@material-ui/core'
+import { Link, useRouteMatch } from "react-router-dom";
 const drawerWidth = 280;
 
 const useStyles = makeStyles((theme) => ({
@@ -26,12 +27,24 @@ const useStyles = makeStyles((theme) => ({
     },
     drawer: {
       width: drawerWidth,
+      ['@media(max-width:600px)']:{
+        display:'none',
+        width:0
+      },
       flexShrink: 0,
+      zIndex: theme.zIndex.drawer - 1199
     },
     drawerPaper: {
       width: drawerWidth,
-      zIndex: 0,
+      ['@media(max-width:600px)']:{
+        display:'none',
+        width:0
+      },
+      zIndex: theme.zIndex.drawer - 1199,
       top: theme.spacing(8.7),
+      ['@media(max-width:992px)']:{
+        top: theme.spacing(15.5)
+      },
       backgroundColor: '#fefeff',
     },
     drawerContainer: {
@@ -83,6 +96,20 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: '#212a36',
             color: '#F1FAFF',
         }
+    },
+    linkStyle:{
+      color: '#212a36',
+      '&:hover':{
+        color:'#F1FAFF',
+        textDecoration: 'none'
+      }
+    },
+    linkStyleActive:{
+      color: '#F1FAFF',
+      '&:hover':{
+        color:'#F1FAFF',
+        textDecoration: 'none'
+      }
     }
     
   }));
@@ -90,6 +117,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Projects = (props)=>{
+    let {path, url } = useRouteMatch();
     const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -133,13 +161,19 @@ const Projects = (props)=>{
                             <Typography style={{fontSize: 24}}>Projects menu</Typography>
                     </div>
                     <div className = {classes.linkNameContainer, classes.linkNameContainerActive}>
-                    <Typography className = {classes.linkName}>Task List</Typography>
+                    <Typography className = {classes.linkName}>
+                      <Link to={`${url}/tasklist`} className = {classes.linkStyleActive}>Task List</Link>
+                    </Typography>
                     </div>
                     <div className = {classes.linkNameContainer}>
-                    <Typography className={classes.linkName}>Calendar</Typography>
+                    <Typography className={classes.linkName} >
+                    <Link to={`${url}/calendar`} className = {classes.linkStyle}>Calendar</Link>
+                    </Typography>
                     </div>
                     <div className = {classes.linkNameContainer}>
-                    <Typography className={classes.linkName}>Projects</Typography>
+                    <Typography className={classes.linkName}>
+                    <Link to={`${url}/projects`} className = {classes.linkStyle}>Projects</Link>
+                    </Typography>
                     </div>
                     </div>
                     </Drawer>

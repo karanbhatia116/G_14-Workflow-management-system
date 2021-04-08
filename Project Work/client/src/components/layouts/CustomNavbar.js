@@ -58,7 +58,7 @@ function CustomNavbar(props) {
                         )
                     }
                     {/* logout button for the user */}
-                <Link className={'nav-link'} onClick={handleLogout}>
+                <Link className={'nav-link'} to="/" onClick={handleLogout}>
                 Log Out
                 </Link>
                 
