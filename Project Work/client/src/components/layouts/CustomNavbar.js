@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { userStore } from "../storage/store";
 import { USER_LOGOUT } from "../storage/actiontype";
 import logo2 from '../../logo/logo2.svg';
+import { Fragment } from "react";
+import { SwipeableDrawer, List, ListItem, Divider } from "@material-ui/core";
+
 function CustomNavbar(props) {
 
-    //checks whether the navbar is open or close for smaller screen(screen size < 978px)
-    const [collapse, setCollapse] = useState(false);
+    //checks whether the navbar is open or close
+    const [open, setOpen] = useState(false);
 
     //which link is active at the moment
     const [active, setActive] = useState(0);
@@ -15,10 +18,8 @@ function CustomNavbar(props) {
     function activatelink(i) {
         //set the id of active link
         setActive(i);
-        //for small screen the navbar collapse is handled here
-        if (window.innerWidth < 992) {
-            setCollapse(collapse ? false : true);
-        }
+        //close the sidebar
+        setOpen(false);
     };
 
     //logout the user from the system and remove from global storage using the dispatch
@@ -30,41 +31,41 @@ function CustomNavbar(props) {
     };
 
     return (
-        <div className='nav-container' style={{display:'flex'}}>
-            {/* header section of the navbar */}
-            <div className="header-section" style={{justifyContent:'center', alignItems:'center', flex:1}}>
-                <header>
-                <img src={logo2} width='100px' height='100px' alt='logo2'></img>
-                </header>
-            </div>
-
-            <nav className="nav" style={{justifyContent:'center'}}>
-                {/* collapse button to close and open navbar at small screens */}
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" className={"ham-menu" + (collapse ? " ham-active" : "")} viewBox="0 0 100 100" onClick={() => setCollapse(collapse ? false : true)}>
-                        <path className="line top" d="m 30 30 h 40 c 0 0 15 10 0 20 h -20 v -20" />
-                        <path className="line mid" d="m 30 50 h 40" />
-                        <path className="line bottom" d="m 70 70 h -40 c 0 0 -15 -10 0 -20 h 20 v 20" />
-                    </svg>
-                </div>
-
-                {/* actual navbar */}
-                <div className={"navbar-" + (collapse ? "open" : "close")}>
-                    {
-                        props.navlinks.map((navlink) =>
-                            <Link className={"nav-link" + ((navlink.id === active || navlink.path === window.location.pathname) ? " active" : "")} key={navlink.id} to={navlink.path} onClick={() => activatelink(navlink.id)}>
-                                {navlink.name}
-                            </Link>
-                        )
-                    }
-                    {/* logout button for the user */}
-                <Link className={'nav-link'} to="/" onClick={handleLogout}>
-                Log Out
-                </Link>
-                
+        <Fragment key="left">
+            <nav className="navbar navbar-sticky-top navbar-dark bg-primary">
+                <div className="container-fluid">
+                    <Link className="navbar-brand" to={props.navlinks[0].path} onClick={() => activatelink(1)}>
+                        <img src={logo2} width="auto" height="47em"/>
+                    </Link>
+                    <div className="d-flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" className={"ham-menu" + (open ? " ham-active" : "")} viewBox="0 0 100 100" onClick={() => setOpen(true)}>
+                            <path className="line top" d="m 30 30 h 40 c 0 0 15 10 0 20 h -20 v -20" />
+                            <path className="line mid" d="m 30 50 h 40" />
+                            <path className="line bottom" d="m 70 70 h -40 c 0 0 -15 -10 0 -20 h 20 v 20" />
+                        </svg>
+                    </div>
                 </div>
             </nav>
-        </div>
+            <SwipeableDrawer className="nav nav-pills" anchor="left" open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+                <List>
+                    {
+                        props.navlinks.map((navlink) => (
+                            <ListItem className="nav-item" key={navlink.id}>
+                                <Link className={"nav-link " + ((navlink.id === active || navlink.path === window.location.pathname) ? " active" : "")} to={navlink.path} onClick={() => activatelink(navlink.id)}>
+                                    {navlink.name}
+                                </Link>
+                            </ListItem>
+                        ))  
+                    }
+                    <Divider />
+                    <ListItem className="nav-item">
+                        <Link className="nav-link" to={window.location.pathname} onClick={handleLogout}>
+                            Log Out
+                        </Link>
+                    </ListItem>
+                </List>
+            </SwipeableDrawer>
+        </Fragment>
     );
 }
 
