@@ -10,6 +10,7 @@ import { userStore } from "./components/storage/store";
 import { HAS_READ, SENT_MSG } from "./components/storage/actiontype";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import resourcesList from "./components/pages/resourceList";
 
 //This is to hide navabar on invalid paths
 function ToggleNavbar(props) {
@@ -103,6 +104,9 @@ function App() {
 					{status && <Redirect to='/NotFound' />}
 					{status && <NotFound />}
 				</Route>
+				{/* <Route exact path='/dashboard/resources' component={resourcesList}/> */}
+
+				
 			</Switch>
 		</BrowserRouter>
 	);
