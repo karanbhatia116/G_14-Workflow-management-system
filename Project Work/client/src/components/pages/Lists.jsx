@@ -96,13 +96,14 @@ function Lists() {
     // }
 
     return (
+        <div className = 'lists'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
         {Object.entries(lists).map(([id, list])=>
-            <List id = {id} list = {list} lists = {lists} setLists = {setLists} render = {render} setRender = {setRender}></List>
+            <List id = {id} key = {id} list = {list} lists = {lists} setLists = {setLists} render = {render} setRender = {setRender}></List>
         )}
         <AddNewList lists = {lists} setLists = {setLists}></AddNewList>
         </DragDropContext>
-       
+        </div>
     )
 }
 

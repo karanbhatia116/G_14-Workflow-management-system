@@ -1,10 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import "./styles/index.css";
+import { Provider } from "react-redux";
+import { userStore } from './components/storage/store';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App></App>
+		{/* Provide the global storage to the app */}
+		<Provider store={userStore}>
+			<App></App>
+		</Provider>
 	</React.StrictMode>,
   	document.getElementById('root')
 );

@@ -19,6 +19,7 @@ if(process.env.NODE_ENV === "production")
 {
   app.use(express.static(path.join(__dirname, "client/build")));
 }
+const user_modal = require('./userModal');
 
 io.on("connection", (socket) => {
   console.log(socket.id);
@@ -37,6 +38,7 @@ io.on("connection", (socket) => {
     console.log('user disconnected');
   })
 });
+
 app.post('/discussion', async(req, res)=>{
     try {
         var obj = req.body;
@@ -48,6 +50,7 @@ app.post('/discussion', async(req, res)=>{
     }
     
 });
+
 app.get('/discussion', async(req,res)=>{
 
     const newMessage = await pool.query("SELECT * from chat");
@@ -57,9 +60,63 @@ app.get('/discussion', async(req,res)=>{
     else
         res.status(200).send(msgs);
 });
+
+app.post('/login', (req, res) => {
+  user_modal.getUsers(req.body)
+    .then(response => {
+      if (response === undefined) {
+        res.status(500).send(undefined);
+      } else {
+        res.status(200).send(response);
+      }
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
+
+app.post('/changepwd', (req, res) => {
+  user_modal.changepwd(req.body)
+    .then(response => {
+      if (response === undefined) {
+        res.status(500).send(undefined);
+      } else {
+        res.status(200).send(response);
+      }
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
+
+app.post('/finduser', (req, res) => {
+  user_modal.findUser(req.body)
+    .then(response => {
+      res.status(200).send(response);
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
+
+app.post('/adduser', (req, res) => {
+  user_modal.addUsers(req.body)
+    .then(response => {
+      if (response === undefined) {
+        res.status(500).send(undefined);
+      } else {
+        res.status(200).send(response);
+      }
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
+
 app.get("*", (req,res)=>{
   res.sendFile(path.join(__dirname, "client/build/index.html"));
 });
+
 http.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });

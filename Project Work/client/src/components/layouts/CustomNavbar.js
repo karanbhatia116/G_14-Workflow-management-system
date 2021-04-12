@@ -1,63 +1,71 @@
-import React from "react";
-import "../../styles/bootstrap-4.3.1-dist/css/bootstrap.min.css";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import {Link} from "react-router-dom";
-class CustomNavbar extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            links: [
-                { path: "/Home", name: "Home", isActive: false },
-                { path: "/Projects", name: "Projects", isActive: false },
-                { path: "/Discussion", name: "Team Discussion", isActive: false }
-            ]
-        }
-    }
-    
-    componentDidMount() {
-        let newlinks = this.state.links.slice();
-        if (this.props.path === "/") {
-            for (let j in newlinks) {
-                newlinks[j].isActive = false;
-            }
-            newlinks[0].isActive = true;
-        } else {
-            for (let j in newlinks) {
-                newlinks[j].isActive = (newlinks[j].path === this.props.path);
-            }
-        }
-    
-        this.setState({ links: newlinks });
-    }
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { userStore } from "../storage/store";
+import { USER_LOGOUT } from "../storage/actiontype";
+import logo2 from '../../logo/logo2.svg';
+function CustomNavbar(props) {
 
-    activatelink(i) {
-        let newlinks = this.state.links.slice();
-        for (let j in newlinks) {
-            newlinks[j].isActive = (Number(i) === Number(j));
-        }
-        this.setState({ links: newlinks });
-    }
+    //checks whether the navbar is open or close for smaller screen(screen size < 978px)
+    const [collapse, setCollapse] = useState(false);
 
-    render() {
-        return (
-            < Navbar className = "navbar-dark bg-primary sticky-top" expand = "lg" >	
-				<Navbar.Brand href="/Home">
-                    WorkFlow
-				</Navbar.Brand>
-				<Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
-				<Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="justify-content-end">
-                        {this.state.links.map((link, i) =>
-                            <Link className={"nav-link" + (link.isActive ? " active" : "")} key={i} to={link.path} onClick={() => this.activatelink(i)}>
-                                {link.name}
-						    </Link>
-                        )}
-					</Nav>
-				</Navbar.Collapse>
-			</Navbar >
-        );
-    }
+    //which link is active at the moment
+    const [active, setActive] = useState(0);
+
+    //change the active link according to user click
+    function activatelink(i) {
+        //set the id of active link
+        setActive(i);
+        //for small screen the navbar collapse is handled here
+        if (window.innerWidth < 992) {
+            setCollapse(collapse ? false : true);
+        }
+    };
+
+    //logout the user from the system and remove from global storage using the dispatch
+    function handleLogout() {
+        userStore.dispatch({
+            type: USER_LOGOUT
+        });
+        window.localStorage.removeItem("user");
+    };
+
+    return (
+        <div className='nav-container' style={{display:'flex'}}>
+            {/* header section of the navbar */}
+            <div className="header-section" style={{justifyContent:'center', alignItems:'center', flex:1}}>
+                <header>
+                <img src={logo2} width='100px' height='100px' alt='logo2'></img>
+                </header>
+            </div>
+
+            <nav className="nav" style={{justifyContent:'center'}}>
+                {/* collapse button to close and open navbar at small screens */}
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" className={"ham-menu" + (collapse ? " ham-active" : "")} viewBox="0 0 100 100" onClick={() => setCollapse(collapse ? false : true)}>
+                        <path className="line top" d="m 30 30 h 40 c 0 0 15 10 0 20 h -20 v -20" />
+                        <path className="line mid" d="m 30 50 h 40" />
+                        <path className="line bottom" d="m 70 70 h -40 c 0 0 -15 -10 0 -20 h 20 v 20" />
+                    </svg>
+                </div>
+
+                {/* actual navbar */}
+                <div className={"navbar-" + (collapse ? "open" : "close")}>
+                    {
+                        props.navlinks.map((navlink) =>
+                            <Link className={"nav-link" + ((navlink.id === active || navlink.path === window.location.pathname) ? " active" : "")} key={navlink.id} to={navlink.path} onClick={() => activatelink(navlink.id)}>
+                                {navlink.name}
+                            </Link>
+                        )
+                    }
+                    {/* logout button for the user */}
+                <Link className={'nav-link'} to="/" onClick={handleLogout}>
+                Log Out
+                </Link>
+                
+                </div>
+            </nav>
+        </div>
+    );
 }
 
 export default CustomNavbar;

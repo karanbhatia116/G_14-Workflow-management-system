@@ -1,12 +1,11 @@
-import React, {useState, useEffect, useRef} from 'react'
-import {Button, IconButton, Input, Paper, Typography, Collapse} from '@material-ui/core';
+import React, {useState, useRef} from 'react'
+import {Button, IconButton, Input, Paper, Collapse} from '@material-ui/core';
 import Close from '@material-ui/icons/Close';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import {Droppable, Draggable} from 'react-beautiful-dnd';
 import Card from './Card';
 import {v4 as uuid} from 'uuid';
 import Delete from '@material-ui/icons/Delete';
-import axios from 'axios';
-function List({id, list, lists, setLists, render, setRender}) {
+const List = ({id, list, lists, setLists, render, setRender})=>{
     const [newTitle, setNewTitle] = useState(list.name);
     const [isOpen, setOpen] = useState(false);
     const [newInput, setNewInput] = useState('');
@@ -50,33 +49,28 @@ function List({id, list, lists, setLists, render, setRender}) {
         }
     }
     
-
-    //-----BUGGY----------//
-    // const handleDeleteList = async ()=>{
-    //     var listIndex;
-    //     for(var prop in lists){
-    //         if(lists.hasOwnProperty(prop))
-    //         {
-    //                 if(lists[prop] === list)
-    //                 listIndex = prop;
-    //         }
-    //     }
-    //     var l = lists;
-    //     console.log("before delete:", lists);
-    //     delete l[listIndex];
-    //     // setRender(!render);
-    //     await setLists(()=>{
-    //     return l;
-    //     });
-    //     await setRender((r)=>{
-    //         return {r: !render};
-    //     });
-    //     console.log("after delete:",lists);
-    // }
+    const handleDeleteList = async ()=>{
+        var listIndex;
+        for(var prop in lists){
+            if(lists.hasOwnProperty(prop))
+            {
+                    if(lists[prop] === list)
+                    listIndex = prop;
+            }
+        }
+        var l = lists;
+        delete l[listIndex];
+        // setRender(!render);
+        await setLists(()=>{
+        return l;
+        });
+        await setRender((r)=>{
+            return {r: !render};
+        });
+    }
     return (
         <div className = 'list__container'>
-             {console.log("Rerender from Child")}
-            <Paper className = 'list__header' style = {{borderRadius:'0px', backgroundColor:"#31363d", color:"white", display: 'flex', borderTopLeftRadius: '15px', borderTopRightRadius: '15px'}} elevation = {1}>
+            <Paper className = 'list__header' style = {{borderRadius:'0px', backgroundColor:"#3D4856", color:"white", display: 'flex', borderTopLeftRadius: '15px', borderTopRightRadius: '15px'}} elevation = {1}>
                 <Input disableUnderline 
                 ref = {title}
                 value = {newTitle} 
@@ -85,9 +79,9 @@ function List({id, list, lists, setLists, render, setRender}) {
                 onChange = {()=>{setNewTitle(title.current.value)}}
                 >
                 </Input>
-                {/* <IconButton onClick = {handleDeleteList}>
+                <IconButton onClick = {handleDeleteList}>
                     <Delete style = {{color: 'white'}}></Delete>
-                </IconButton> */}
+                </IconButton>
             </Paper>
             <Droppable droppableId= {id} key = {id}>
                 {(provided, snapshot)=>(
@@ -114,8 +108,8 @@ function List({id, list, lists, setLists, render, setRender}) {
                     </div>
                 )}
             </Droppable>
-            <Collapse in = {isOpen}>
-                <Paper elevation={1} style={{marginBottom:"1px", borderRadius:"0px", width:"100%"}}>
+            <Collapse in = {isOpen} timeout = {'auto'}>
+                <Paper elevation={0} style={{marginBottom:"1px", borderRadius:"0px", width:"100%"}}>
                     <Input value = {newInput} 
                     placeholder = 'Enter a new card...' 
                     type='textarea' 
@@ -131,7 +125,7 @@ function List({id, list, lists, setLists, render, setRender}) {
             </Collapse>
             <Paper className='list__add' style={{borderRadius:'0px', borderBottomLeftRadius:'18px', borderBottomRightRadius: '12px', border: '1px solid lightgrey'}} elevation = {1}>
                 <Button className = 'list__add__button' 
-                style = {{backgroundColor: 'rgba(13, 170, 30, 0.9)', color: 'white', borderRadius: '0px', borderBottomLeftRadius: '15px', outline: 'none'}}
+                style = {{backgroundColor: 'rgb(0, 138, 94)', color: 'white', borderRadius: '0px', borderBottomLeftRadius: '15px', outline: 'none'}}
                 onClick = {handleOnClick}
                 id = {id}
                 >
@@ -149,6 +143,6 @@ function List({id, list, lists, setLists, render, setRender}) {
 
         </div>
     )
-}
+};
 
 export default List

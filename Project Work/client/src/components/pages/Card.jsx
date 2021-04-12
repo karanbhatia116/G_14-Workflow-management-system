@@ -1,5 +1,5 @@
-import React from 'react'
-import { IconButton, Paper, Typography } from '@material-ui/core'
+import React from 'react';
+import { IconButton, Paper, Typography } from '@material-ui/core';
 import '../../styles/Card.css';
 import DragHandleRoundedIcon from '@material-ui/icons/DragHandleRounded';
 import Trash from '@material-ui/icons/Delete';
@@ -27,7 +27,7 @@ function Card({cardContent, lists, setLists, list, render, setRender}) {
                 <Typography className = 'card__content'>
                 <DragHandleRoundedIcon></DragHandleRoundedIcon>
                  <span className = 'card__content__text'>{cardContent}</span>
-                <IconButton style = {{marginLeft: 10, padding: 0}} onClick = {handleDeleteCard}>
+                <IconButton style = {{marginLeft: 10, padding: 0, height:'fit-content'}} onClick = {handleDeleteCard}>
                     <Trash></Trash>
                 </IconButton>
                 </Typography>
