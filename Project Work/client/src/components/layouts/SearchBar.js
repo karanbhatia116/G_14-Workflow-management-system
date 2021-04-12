@@ -1,18 +1,20 @@
 import { Container } from "@material-ui/core";
-import { Grid, FormControl, OutlinedInput, InputLabel, FormHelperText, InputAdornment, IconButton } from "@material-ui/core";
-import { useState, useRef, useEffect} from "react";
+import { Grid, FormControl, OutlinedInput, InputLabel, InputAdornment, IconButton, Button } from "@material-ui/core";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function SearchBar() {
     //Store the value of the search bar
     const [search, setSearch] = useState("");
     //Store the search results of the query
     const [searchList, setSearchList] = useState([]);
-
-    //Shows the error
-    const [searchWarning, setsearchWarning] = useState("");
-
+    //current loggedInUser
+    const loggedInUser = useSelector(state => state.loggedInUser);
     useEffect(() => {
         handleChange();
+        return () => {
+            return true;
+        }
     }, [search]);
     function handleChange() {
         //fetch data from the users database using fetch API
@@ -34,12 +36,65 @@ function SearchBar() {
             .then(data => {
                 if (data === undefined) {
                     //if the the search is wrong then throw warning
-                    setsearchWarning("Username is not available.");
                     setSearchList([]);
                 } else {
                     setSearchList(data);
                 }
             });
+    }
+
+    const upgradeUser = (user, e) => {
+        e.preventDefault();
+        if (user.username !== loggedInUser.username) {
+            fetch('http://localhost:4000/upgradeuser', {
+                method: 'PUT',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user)
+            })
+                .then(response => {
+                    //check the response
+                    if (response.status === 500) {
+                        return undefined;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data !== undefined) {
+                        //if the the search is right then update list
+                        handleChange();
+                    }
+                });
+        }
+    }
+
+    const downgradeUser = (user, e) => {
+        e.preventDefault();
+        if (user.username !== loggedInUser.username) {
+            fetch('http://localhost:4000/downgradeuser', {
+                method: 'PUT',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user)
+            })
+                .then(response => {
+                    //check the response
+                    if (response.status === 500) {
+                        return undefined;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data !== undefined) {
+                        //if the the search is right then update list
+                        handleChange();
+                    }
+                });
+        }
     }
 
     return (
@@ -48,14 +103,13 @@ function SearchBar() {
             <Container>
                 <Grid container item direction="column" justify="center" alignItems="center" xs={12}>
                     <FormControl fullWidth>
-                        <InputLabel htmlFor="searchbar" variant="outlined" error={searchWarning !== ""}>Searchbar</InputLabel>
+                        <InputLabel htmlFor="searchbar" variant="outlined" error={false}>Searchbar</InputLabel>
                         <OutlinedInput
                             id="searchbar"
                             type="text"
                             name="searchbar"
                             label="searchbar"
-                            error={searchWarning !== ""}
-                            aria-describedby="my-helper-text-searchbar"
+                            error={false}
                             value={search}
                             onChange={(e)=>setSearch(e.target.value)}
                             autoComplete="off"
@@ -73,33 +127,54 @@ function SearchBar() {
                                 </InputAdornment>
                             }
                         />
-                        <FormHelperText id="my-helper-text-searchbar" error={searchWarning !== ""}>{searchWarning}</FormHelperText>
                     </FormControl>
                 </Grid>
             </Container>
             <Container>
                 {/* Result are Shown Here */}
-                <h6>List:</h6>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">UserType</th>
-                            <th scope="col">UserName</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            searchList.map((user, i) =>
-                                <tr key={i}>
-                                    <td>{i + 1}</td>
-                                    <td>{user.usertype}</td>
-                                    <td>{user.username}</td>
+                {
+                    searchList.length !== 0 &&
+                    <>
+                        <h6>List:</h6>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col"></th>
                                 </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                {
+                                    searchList.map((user, i) =>
+                                        <tr key={i}>
+                                            <td>{user.usertype}</td>
+                                            <td>{user.username}</td>
+                                            <td>
+                                                {
+                                                    user.usertype !== 0 &&
+                                                    <Button style={{ backgroundColor: "lightgreen", color: "white"}} onClick={(e) => upgradeUser(user, e)}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up" viewBox="0 0 16 16">
+                                                            <path fillRule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+                                                        </svg>
+                                                    </Button>
+                                                }
+                                                {
+                                                    user.usertype !== 2 &&
+                                                    <Button style={{ backgroundColor: "orange", color: "white" }} onClick={(e) => downgradeUser(user, e)}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down" viewBox="0 0 16 16">
+                                                            <path fillRule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
+                                                        </svg>
+                                                    </Button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </>
+                }
             </Container>
         </Container>
     );
