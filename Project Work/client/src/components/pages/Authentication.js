@@ -6,23 +6,22 @@ import logo from '../../logo/logo.svg';
 function Authentication() {
 
     //modal page state is declared which renders the appropriate page for user. 
-    
+
     // SignalForgotPassword function renders the ForgotPassword Page.
     const SignalForgotPassword = () => setModalPage(
         <>
-            <Modal.Header style = {{display:'flex', alignItems:'center'}}>
-            <img src = {logo} alt = "logo" width="100px" height="100px"/>
-            <Modal.Title className = 'forgot__text'>
+            <Modal.Header closeButton>
+                <Modal.Title>
                     Forgot Password
                 </Modal.Title>
             </Modal.Header>
 
-            <Modal.Body className="authentication-body">
+            <Modal.Body>
                 <ForgotPassword />
             </Modal.Body>
 
             <Modal.Footer>
-                { /* To go to the LogIn Page */ }
+                { /* To go to the LogIn Page */}
                 <NavLink onClick={SignalLogIn}>
                     Go back to Log-In page
                 </NavLink>
@@ -33,15 +32,14 @@ function Authentication() {
     // SignalLogIn function renders the LogIn Page.
     const SignalLogIn = () => setModalPage(
         <>
-            <Modal.Header style = {{display:'flex', alignItems:'center'}}>
-            <img src = {logo} alt = "logo" width="100px" height="100px"/>
-            <Modal.Title className = {'login__text'}>
+            <Modal.Header closeButton>
+                <Modal.Title>
                     Log-In
                 </Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="authentication-body">
-                <LogIn/>
+                <LogIn />
             </Modal.Body>
 
             <Modal.Footer>
@@ -56,15 +54,14 @@ function Authentication() {
     // By defalut it renders the LogIn Page.
     const [modalPage, setModalPage] = useState(
         <>
-            <Modal.Header style = {{display:'flex', alignItems:'center'}}>
-            <img src = {logo} alt = "logo" width="100px" height="100px"/>
-                <Modal.Title className = {'login__text'}>
+            <Modal.Header closeButton>
+                <Modal.Title>
                     Log-In
                 </Modal.Title>
             </Modal.Header>
 
-            <Modal.Body className="authentication-body">
-                <LogIn/>
+            <Modal.Body>
+                <LogIn />
             </Modal.Body>
 
             <Modal.Footer>
@@ -77,10 +74,10 @@ function Authentication() {
     );
 
     return (
-        <div className="authentication" >
+        <>
             {/* modalPage state for the redner. */}
             {modalPage}
-        </div>
+        </>
     );
 }
 export default Authentication;

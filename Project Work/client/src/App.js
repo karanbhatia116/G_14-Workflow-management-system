@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Switch, Route, Redirect, withRouter } from "react-router-dom";
 import CustomNavbar from "./components/layouts/CustomNavbar";
-import Authentication from "./components/pages/Authentication";
+import Home from "./components/pages/Home";
 import NotFound from "./components/pages/NotFound";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -86,7 +86,7 @@ function App() {
 							{/* If user is not logged in every path will redirect to / */}
 							{!status && <Redirect to='/' />}
 							{/* LogIn page */}
-							{!status && <Authentication />}
+							{!status && <Home />}
 							{/* If User is logged In, User will go to appropriate links */}
 							{status && navlink.target}
 						</Route>
@@ -97,7 +97,7 @@ function App() {
 					{/* If user is not logged in every path will redirect to / */}
 					{!status && <Redirect to='/' />}
 					{/* LogIn page */}
-					{!status && <Authentication />}
+					{!status && <Home />}
 
 					{/* If someone tries to access pages outside of the links will redirect to Not Found Page */}
 					{status && <Redirect to='/NotFound' />}
