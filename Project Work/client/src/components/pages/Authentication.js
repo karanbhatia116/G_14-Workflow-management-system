@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal, NavLink } from "react-bootstrap";
 import LogIn from "../layouts/LogIn";
 import ForgotPassword from "../layouts/ForgotPassword";
-import logo from '../../logo/logo.svg';
+
 function Authentication() {
 
     //modal page state is declared which renders the appropriate page for user. 

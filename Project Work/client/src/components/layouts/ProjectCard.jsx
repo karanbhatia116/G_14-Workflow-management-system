@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -11,66 +11,68 @@ import ProjectModal from '../layouts/ProjectModal';
 
 const useStyles = makeStyles({
     root: {
-      marginTop: 26,
-      minWidth: 280,
-      minHeight: 438,
-      maxHeight: 438,
-      marginBottom: 30,
-      overflowY:'auto',
+        marginTop: 26,
+        minWidth: 280,
+        minHeight: 438,
+        maxHeight: 438,
+        marginBottom: 30,
+        overflowY: 'auto',
     },
     media: {
-      height: 140,
+        height: 140,
     },
-    button:{
+    button: {
         position: 'relative',
-        
-    }
-  });
 
-const ProjectCard = (props)=>{
+    }
+});
+
+const ProjectCard = (props) => {
     const classes = useStyles();
     const [isOpen, setOpen] = useState(false);
-    const [title, setTitle] = useState(props.project.project_title);
-    const [description, setDescription] = useState(props.project.project_description);
-    const [image, setImage] = useState(props.project.img);
-    const [team, setTeam] = useState();
+    const [title, setTitle] = useState(props.project.projectname);
+    const [description, setDescription] = useState(props.project.description);
+    const [image, setImage] = useState(props.project.image);
+    const [team, setTeam] = useState(props.project.team);
     return (
         <>
-        <ProjectModal isOpen = {isOpen} 
-        setOpen={setOpen} 
-        title={title} 
-        setTitle={setTitle} 
-        description={description} 
-        setDescription={setDescription}
-        image = {image}
-        setImage={setImage}
-        team={team}
-        setTeam={setTeam}
-        ></ProjectModal>
-        <Card className={classes.root} onClick={()=>setOpen(true)}>
-          <CardActionArea>
-            <CardMedia
-              className={classes.media}
-              image={props.project.img}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {props.project.project_title}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                  {props.project.project_description}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <Button size="small" color="primary" className = {classes.button}>
-              Details
+            <ProjectModal isOpen={isOpen}
+                setOpen={setOpen}
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+                image={image}
+                setImage={setImage}
+                team={team}
+                setTeam={setTeam}
+                projects={props.projects}
+                setProjects={props.setProjects}
+            ></ProjectModal>
+            <Card className={classes.root} onClick={() => setOpen(true)}>
+                <CardActionArea>
+                    <CardMedia
+                        className={classes.media}
+                        image={props.project.img}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {props.project.projectname}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {props.project.description}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    <Button size="small" color="primary" className={classes.button}>
+                        Details
             </Button>
-          </CardActions>
-        </Card>
-        
+                </CardActions>
+            </Card>
+
         </>
-      );
+    );
 };
 
 export default ProjectCard;

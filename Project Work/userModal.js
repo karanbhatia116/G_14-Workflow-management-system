@@ -53,7 +53,7 @@ const addUsers = (body) => {
                     if (err) {
                         reject(err);
                     }
-                    if (result.rows.length > 0) {
+                    if (results !== undefined) {
                         const user = result.rows[0];
                         resolve(user);
                     } else {
@@ -80,7 +80,7 @@ const changepwd = (body) => {
                     if (err) {
                         reject(err);
                     }
-                    if (result.rows.length > 0) {
+                    if (results !== undefined) {
                         const user = result.rows[0];
                         resolve(user);
                     } else {
@@ -101,7 +101,7 @@ const upgradeUser = (body) => {
             if (error) {
                 reject(error);
             }
-            if (results.rows.length > 0) {
+            if (results !== undefined) {
                 const user = results.rows[0];
                 resolve(user);
             } else {
@@ -123,7 +123,7 @@ const downgradeUser = (body) => {
                     if (error) {
                         reject(error);
                     }
-                    if (results.rows.length > 0) {
+                    if (results !== undefined) {
                         const user = results.rows[0];
                         resolve(user);
                     } else {
@@ -138,11 +138,44 @@ const downgradeUser = (body) => {
     })
 }
 
+const findprojects = () => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`SELECT * FROM projects;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const addproject = (body) => {
+    const { projectname, deadline, manager, team, description, image } = body;
+    return new Promise(function (resolve, reject) {
+        pool.query(`INSERT INTO projects VALUES ('${projectname}','${deadline}','${manager}',${team},'${description}',${image}) RETURNING projectname, deadline, manager, team, description, image;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
 module.exports = {
     getUsers,
     addUsers,
     changepwd,
     findUser,
     upgradeUser,
-    downgradeUser
+    downgradeUser,
+    findprojects,
+    addproject
 };

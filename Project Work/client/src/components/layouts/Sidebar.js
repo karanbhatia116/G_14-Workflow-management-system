@@ -11,10 +11,11 @@ function Sidebar({ notes,onAddNote,onDeleteNote,activeNote,setActiveNote }){
         </div>
 
         <div className="app-sidebar-notes">
-            {sortedNotes.map((note) => (
+            {sortedNotes.map((note, i) => (
                 <div 
                     className={`app-sidebar-note ${note.id === activeNote && "active"}`} 
                     onClick={() => setActiveNote(note.id)}
+                    key={i}
                 >
 
                 <div className="sidebar-note-title">

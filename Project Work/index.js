@@ -140,6 +140,34 @@ app.put('/downgradeuser', (req, res) => {
         });
 });
 
+app.get('/findprojects', (req, res) => {
+    user_modal.findprojects()
+        .then(response => {
+            if (response === undefined) {
+                res.status(500).send(undefined);
+            } else {
+                res.status(200).send(response);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
+app.post('/addproject', (req, res) => {
+    user_modal.addproject(req.body)
+        .then(response => {
+            if (response === undefined) {
+                res.status(500).send(undefined);
+            } else {
+                res.status(200).send(response);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client/build/index.html"));
 });

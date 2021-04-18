@@ -1,5 +1,5 @@
 import React from 'react'
-import {NotificationManager, NotificationContainer} from  'react-notifications';
+import {NotificationManager} from  'react-notifications';
 import 'react-notifications/lib/notifications.css';
 function Notification({message}) {
     NotificationManager.success(message.msg, 'Hello');
