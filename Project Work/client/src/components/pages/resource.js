@@ -3,13 +3,14 @@ import TodoForm from './resourceForm';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import { TiEdit } from 'react-icons/ti';
 
-const Resource = ({ todos, completeTodo, removeTodo, updateTodo }) => {
+const Resource = ({ todos, completeTodo, removeTodo, updateTodo}) => {
   const [edit, setEdit] = useState({
     id: null,
-    value: ''
+    value: '',
   });
-
-  const submitUpdate = value => {
+ 
+  
+  const submitUpdate = (value) => {
     updateTodo(edit.id, value);
     setEdit({
       id: null,
@@ -27,7 +28,7 @@ const Resource = ({ todos, completeTodo, removeTodo, updateTodo }) => {
       key={index}
     >
       <div key={todo.id} onClick={() => completeTodo(todo.id)}>
-      <a href={todo.text} target="_blank">{todo.text}</a>
+      <a href={todo.text} target="_blank">{todo.topic}</a>
       </div>
       <div className='icons'>
         <RiCloseCircleLine
@@ -35,7 +36,7 @@ const Resource = ({ todos, completeTodo, removeTodo, updateTodo }) => {
           className='delete-icon'
         />
         <TiEdit
-          onClick={() => setEdit({ id: todo.id, value: todo.text })}
+          onClick={() => setEdit({ id: todo.id, value:''})}
           className='edit-icon'
         />
       </div>
