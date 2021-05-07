@@ -7,7 +7,7 @@ const devConfig = {
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     host: process.env.DATABASE_HOST,
-    database: "workflow-management-chat-app",
+    database: "workflow-management-app",
     port: process.env.PORT,
 }
 
@@ -17,8 +17,8 @@ const productionConfig = {
         rejectUnauthorized: false
     }
 }
-const pool = new Pool(process.env.NODE_ENV === "production"?productionConfig : devConfig);
-// const pool  = new Pool(productionConfig);
+// const pool = new Pool(process.env.NODE_ENV === "production"?productionConfig : devConfig);
+const pool  = new Pool(productionConfig);
 //     connectionString: process.env.DATABASE_URL,
 //     user: process.env.DATABASE_USER,
 //     password:process.env.DATABASE_PASSWORD,

@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.e-schedule .e-month-view .e-current-date .e-date-header, .e-schedule .e-month-agenda-view .e-current-date .e-date-header {
+  background-color: dodgerblue;
+  border-radius: 50%;
+  color: #fff;
+  width: 20px;
+}
+
+.e-schedule .e-month-view .e-date-header-wrap table td.e-current-day, .e-schedule .e-month-agenda-view .e-date-header-wrap table td.e-current-day {
+  color: #007bff;
+}
+
+.e-schedule .e-schedule-toolbar .e-active-view .e-tbar-btn-text, .e-schedule .e-schedule-toolbar .e-active-view .e-icons {
+  color: #007bff;
+}
+
+.e-schedule .e-vertical-view .e-header-cells.e-current-day {
+  color: #007bff;
+}
+
+.e-schedule .e-vertical-view .e-clone-time-indicator, .e-schedule .e-vertical-view .e-current-time {
+  color: #007bff;
+}

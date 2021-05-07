@@ -1,0 +1,170 @@
+:root{
+    --base-color-1: #3D4856;
+    --base-color-2: #5FB2FF;
+    --base-color-3: #F1FAFF;
+    /* --link-color-1: #7D6592;
+    --link-color-2: #4B597A;
+    --link-color-3: #2F4858;  */
+    --link-color-1: #B3ECF5;
+    --link-color-2: #F9DEC2;
+    --link-color-3: #FFFFFF;
+    /* --base-color-1: #007BFF;`
+    --base-color-2: #009EFA;
+    --base-color-3: #3F51F5; */ 
+}
+
+code {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+*{
+    box-sizing: border-box;
+    outline: none;
+    font-weight: 500;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+/******************************************
+************for the menu button************
+*******************************************/
+
+.ham-menu{
+    width: 3rem;
+    stroke: var(--link-color-1);
+    background-color: transparent;
+    cursor: pointer;
+    transition: 300ms;
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.ham-menu:hover, .ham-menu:focus{
+    stroke: var(--link-color-3);
+}
+
+.ham-menu .line{
+    stroke-width: 5;
+    stroke-linecap: round;
+    fill: none;
+    transition: inherit;
+}
+
+.ham-menu .top{
+    stroke-dasharray: 40 85;
+}
+
+.ham-menu .bottom{
+    stroke-dasharray: 40 85;
+}
+
+.ham-active{
+    transform: rotate(-45deg);
+}
+
+.ham-active .top{
+    stroke-dashoffset: -85;
+}
+
+.ham-active .bottom{
+    stroke-dashoffset: -85;
+}
+
+/**************************************************
+*********************Not-Found*********************
+**************************************************/
+.notfound{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #F1FAFF;
+    color: var(--base-color-1);
+    font-size: 1em;
+}
+
+.notfound div{
+    padding: 0em;
+}
+
+.notfound a{
+    color: var(--base-color-3);
+}
+
+@media screen and (min-width: 786px){
+    .notfound{
+        flex-direction: row;
+    }
+
+    .notfound div{
+        padding: 1em;
+    }
+}
+@keyframes up-down {
+    0% {
+        transform: translateY(4px);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+.svg-animated{
+    animation: up-down 0.5s ease-in-out infinite alternate-reverse both;
+}
+@media screen and (max-width:768px){
+    .svg-animated{
+        animation: none;
+    }
+   
+}
+/**************************************************
+*******************Authentication******************
+**************************************************/
+
+.authentication{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.authentication a{   
+    color: var(--base-color-1);
+}
+
+.authentication a:hover{   
+    color: var(--base-color-3);
+}
+
+.authentication .authentication-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login__text{
+    width: fit-content;
+    margin-right: 2em;
+
+}
+.forgot__text{
+    width:fit-content;
+    margin-right: 1em;
+}
+@media screen and (max-width:700){
+    .login__text{
+        margin-right: 1em;
+    }
+    .forgot__text{
+        margin-right: 0em;
+    }
+}

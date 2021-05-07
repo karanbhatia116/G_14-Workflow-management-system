@@ -1,10 +1,17 @@
+.lists{
+    display: flex;
+    min-width: 86%;
+    overflow-x: auto;
+    height: 90vh;
+    align-items: center;
+}
 .list__container{
     margin-top: 0%;
     margin-left: 1.5%;
     margin-right: 0.5%;
-    min-width: 320px;
-    overflow-x: auto;
+    width: 320px;
     overflow-y: hidden;
+    flex: 0 0 auto;
 }
 .list__header{
     padding: 20px;
