@@ -1,24 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import TodoForm from './resourceForm';
 import Todo from './resource';
 import '../../styles/resource.css';
 import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
-
+import axios from 'axios';
 function ResourceList() {
   const [todos, setTodos] = useState([]);
   const [placehold, setPlacehold] = useState(false);
-  const [present,setPresent]=useState(false);
-
+  useEffect(()=>{
+    axios.get('/resources').then(res=>{
+      if(res.data)
+      {
+        let objArr = res.data;
+        for(var key in objArr){
+        delete Object.assign(objArr[key], {['id']: objArr[key]['resource_id'] })['resource_id'];
+        delete Object.assign(objArr[key], {['topic']: objArr[key]['resource_name'] })['resource_name'];
+        delete Object.assign(objArr[key], {['text']: objArr[key]['resource_url'] })['resource_url'];
+        }
+        setTodos(objArr);
+      }
+    });
+  }, []);
+  // useEffect((TodoId)=>{
+  //   console.log(todos);
+  //   if(todos !== [])
+  //   {
+  //     axios.post('/updateresource', {
+  //       resource_id: TodoId,
+  //       resource_name: todos[TodoId].topic,
+  //       resource_url: todos[TodoId].text
+  //   }).then(res=>console.log(res.data));
+  //   }
+  // }, [todos,TodoId]);
 
   const addTodo = todo => {
-    if (!todo.text || /^\s*$/.test(todo.text)) {
-      //alert("Empty Link Not Allowed")
-      //return;
-    }
     if(todo.text.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)===null)
     {
-     
       setPlacehold(true);
       setTimeout(function()
       {
@@ -27,13 +44,11 @@ function ResourceList() {
       
     }
     else if (!todo.topic || /^\s*$/.test(todo.topic)) {
-      //alert("Empty Topic Name Not Allowed")
       setPlacehold(true);
       setTimeout(function()
       {
         setPlacehold(false);
       }.bind(this),5000);
-      //return;
     }
     else if(todos.find( ({ text}) => text === todo.text)!==undefined)
     {
@@ -42,29 +57,28 @@ function ResourceList() {
       {
         setPlacehold(false);
       }.bind(this),5000);
-      //alert("This Link is already present");
-      //return ;
     }
     else
     {
     const newTodos = [todo, ...todos];
     setTodos(newTodos);
-    console.log(...todos);
+    axios.post('/resources', {
+      resource_id: todo.id,
+      resource_name: todo.topic,
+      resource_link: todo.text
+    });
     }
   };
 
-  const updateTodo = (todoId, newValue) => {
+  const updateTodo = async (todoId, newValue) => {
     let found=todos.find( ({ text }) => text === newValue.text );
     if (!newValue.text || /^\s*$/.test(newValue.text)) 
     {
-      //newValue.text=found.text;
       setPlacehold(true);
       setTimeout(function()
       {
         setPlacehold(false);
       }.bind(this),5000);
-      //alert("Empty Link Not Allowed");
-    //  return;
     }
     else if(newValue.text.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)===null)
     {
@@ -99,12 +113,24 @@ function ResourceList() {
      // return ;
     }
     else
-    setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)));
+    {
+      // let obj = todos;
+      // for(var key in obj){
+      //   if(obj[key].id === todoId){
+      //     obj[key].topic = newValue.topic;
+      //     obj[key].text = newValue.text;
+      //   }
+      // }
+      console.log(todos);
+      // console.log(obj);
+      setTodos(prev => prev.map((item)=>item.id === todoId ? Object.assign({}, item, {text: newValue.text, topic: newValue.topic}): item));
+    }
   };
-
   const removeTodo = id => {
     const removedArr = [...todos].filter(todo => todo.id !== id);
-
+    axios.post('/deleteresource', {
+      resource_id: id
+    }).then(res=> console.log(res.data));
     setTodos(removedArr);
   };
 

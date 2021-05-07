@@ -1,11 +1,11 @@
 import ProjectCard from '../layouts/ProjectCard';
 import { makeStyles } from '@material-ui/core/styles';
-import {Box, Grid, Container} from '@material-ui/core';
+import {Grid, Container} from '@material-ui/core';
 import AddProjectCard from '../layouts/AddProjectCard';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import {v4 as uuid} from 'uuid';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 const useStyles = makeStyles({
     container:{
         height: 560,
@@ -34,7 +34,7 @@ const projectList = [
     },
     {
         id: uuid(),
-        img: "https://logos-world.net/wp-content/uploads/2020/04/Facebook-Logo.png",
+        img: "https://via.placeholder.com/300x60?text=Add+Image",
         project_title: 'Facebook',
         team_assigned: 10,
         project_manager: '',
@@ -53,6 +53,15 @@ const projectList = [
 
 ]
 const Projects = () => {
+//     let projectList = [];
+// useEffect(()=>{
+//     axios.get('/projects').then(res=> {
+//         console.log(res.data);
+//         projectList.push(res.data);
+//         console.log(projectList);
+//     });
+    
+// });
 const classes = useStyles();
 const theme = useTheme();
 const [projects, setProjects] = useState(projectList);
@@ -65,6 +74,7 @@ return(
                 <Grid item xs = {8} sm = {7} md = {4} lg = {3} key={index}>
                 <ProjectCard 
                 project={project}
+                setProjects = {setProjects}
                 ></ProjectCard>
                 </Grid>
             )}

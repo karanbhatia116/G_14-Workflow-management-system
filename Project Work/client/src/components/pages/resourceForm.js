@@ -1,19 +1,11 @@
-  //resource form
-  import React, { useState, useEffect, useRef } from 'react';
-
+import React, { useState, useRef } from 'react';
+import {v4 as uuid} from 'uuid';
   function ResourceForm(props) {
     const [input, setInput] = useState(props.edit ? props.edit.value : '');
     const [input1, setInput1] = useState(props.edit ? props.edit.value : '');
   
     const inputRef = useRef(null);
     const inputRef1 = useRef(null);
-  
-    // useEffect(() => {
-    //   inputRef1.current.focus();
-    // });
-    // useEffect(() => {
-    //   inputRef.current.focus();
-    // });
   
     const handleChange = e => {
       setInput(e.target.value);
@@ -24,9 +16,8 @@
   
     const handleSubmit = e => {
       e.preventDefault();
-  
       props.onSubmit({
-        id: Math.floor(Math.random() * 10000),
+        id: uuid(),
         topic:input1,
         text: input
       });

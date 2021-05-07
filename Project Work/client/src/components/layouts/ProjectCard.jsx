@@ -51,14 +51,14 @@ const ProjectCard = (props)=>{
           <CardActionArea>
             <CardMedia
               className={classes.media}
-              image={props.project.img}
+              image={image}
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                {props.project.project_title}
+                {title}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                  {props.project.project_description}
+                  {description}
               </Typography>
             </CardContent>
           </CardActionArea>
