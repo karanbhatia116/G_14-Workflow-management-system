@@ -22,7 +22,9 @@ const Resource = ({ todos, completeTodo, removeTodo, updateTodo}) => {
     return <TodoForm edit={edit} onSubmit={submitUpdate} />;
   }
 
-  return todos.map((todo, index) => (
+  if(todos!==[])
+  {
+    return todos.map((todo, index) => (
     <div
       className={todo.isComplete ? 'todo-row complete' : 'todo-row'}
       key={index}
@@ -42,6 +44,9 @@ const Resource = ({ todos, completeTodo, removeTodo, updateTodo}) => {
       </div>
     </div>
   ));
+  }
+  else
+  return null;
 };
 
 export default Resource;

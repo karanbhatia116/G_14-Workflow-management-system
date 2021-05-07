@@ -1,39 +1,34 @@
 import React, {useState, useEffect} from 'react'
 import '../../styles/List.css';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import {v4 as uuid} from 'uuid';
+import {DragDropContext} from 'react-beautiful-dnd';
 import List from './List';
 import AddNewList from './AddNewList';
-
-// these will be fetched from the backend 
-var arr= [
-    {
-        cardContent: "Make a draggable todo list",
-        id: uuid().toString(),
-    },
-    {
-        cardContent: "Walk dog",
-        id: uuid().toString(),
-    },
-
-
-];
-const listsFromBackend = {
-    [uuid()]:{
-        name: 'Todo',
-        items: arr
-    },
-    [uuid()]:{
-        name: 'Done',
-        items: []
-    },
-}
-
+import {Button} from 'react-bootstrap';
+import axios from 'axios';
+import {NotificationManager, NotificationContainer} from  'react-notifications';
+import 'react-notifications/lib/notifications.css';
 function Lists() {
-    const [lists, setLists] = useState(listsFromBackend);
+
+    const [lists, setLists] = useState({});
     const [render, setRender] = useState(false);
 
-    const handleOnDragEnd = (result)=>{
+    useEffect(()=>{
+        axios.get('/lists').then(res=> {
+            setLists(res.data.data);
+        });
+        return (() => { return true; });
+    }, []);
+
+    const handleBoardSave = ()=>{
+        axios.post('/updatelists', lists);
+        NotificationManager.success("Board state saved successfully!", "Notification");
+        console.log(lists);
+    }
+    // useEffect(()=>{
+    //     axios.post('/updatelists', lists);
+    //     console.log(lists);
+    // }, [lists]);
+    const handleOnDragEnd = async (result)=>{
         if(!result.destination) return;
         const {source, destination} = result;
         if(source.droppableId !== destination.droppableId)
@@ -55,6 +50,8 @@ function Lists() {
                     items: destItems
                 }
             });
+            
+            
         }
         else{
             const list = lists[source.droppableId];
@@ -72,38 +69,25 @@ function Lists() {
         
     }
 
-    //------------BUGGY---------------------//
-    // const handleDeleteList = async (list)=>{
-    //     var listIndex;
-    //     for(var prop in lists){
-    //         if(lists.hasOwnProperty(prop))
-    //         {
-    //                 if(lists[prop] === list)
-    //                 listIndex = prop;
-    //         }
-    //     }
-    //     var l = lists;
-    //     console.log("before delete:", lists);
-    //     delete l[listIndex];
-    //     // setRender(!render);
-    //     await setLists(()=>{
-    //     return l;
-    //     });
-    //     await setRender((r)=>{
-    //         return {r: !render};
-    //     });
-    //     console.log("after delete:",lists);
-    // }
-
     return (
+        <>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems:'center'}}>
+        <Button style={{marginTop: '1rem'}} variant='outline-primary' onClick={handleBoardSave}>Save Board</Button>
+        </div>
         <div className = 'lists'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
         {Object.entries(lists).map(([id, list])=>
             <List id = {id} key = {id} list = {list} lists = {lists} setLists = {setLists} render = {render} setRender = {setRender}></List>
         )}
+        {console.log("lists from lists!!!!!")}
+        {Object.entries(lists).map(([id, list])=>
+            console.log(list["_id"])
+        )}
         <AddNewList lists = {lists} setLists = {setLists}></AddNewList>
         </DragDropContext>
         </div>
+        <NotificationContainer/>
+        </>
     )
 }
 
