@@ -1,0 +1,31 @@
+.progress-div {
+  display: flex;
+  background-color: rgb(56, 139, 248);
+  border-radius: 10px;  
+}
+
+.progress {
+  background: rgb(80, 238, 114);
+  height: 100px;
+  transition: 1s ease;
+  transition-delay: 0.5s;
+  border-radius: 10px;
+  border-style: solid;
+  border: 10px;
+  border-color: aliceblue;
+  box-shadow: 10cm;
+  -webkit-box-shadow: 5px 0px 0.5px 0px rgb(241, 239, 250);
+  outline: 10px ;
+  outline-color: azure;
+  outline-width: 11px;
+  margin: 0;
+}
+
+.progressComp h1 {
+  font-size: 20px;
+  color: black;
+}
+
+.percent-number {
+  color: rgb(5, 5, 5);
+}

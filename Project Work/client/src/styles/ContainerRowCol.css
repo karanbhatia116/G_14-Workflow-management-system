@@ -1,0 +1,41 @@
+.rowC{
+    display:flex;
+    flex-direction: row;
+    width: 100%;    
+    /* margin-bottom: 0pt;
+    margin-top: 0pt;
+    margin-left: 0pt;
+    margin-right: 0pt; */
+}
+.colC{
+    display:flex;
+    flex-direction: column;
+    width: 100%;    
+    /* margin-bottom: 10pt;
+    margin-top: 10pt; */
+}
+.sideProfile{
+    margin-top: 10pt;
+    margin-bottom: 0pt;
+}
+.cards{
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+    margin-left: 19pt;
+    margin-right: 0pt;
+    text-align: center;
+}
+/* #boxes {
+    content: "";
+    display: table;
+    clear: both;
+  } */
+  
+div {
+    -ms-flex-align: center;
+    margin-right: 5pt;
+    margin-left: 5pt;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+    text-align: center;
+}

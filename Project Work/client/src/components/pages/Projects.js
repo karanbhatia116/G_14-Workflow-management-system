@@ -1,13 +1,13 @@
 import ProjectCard from '../layouts/ProjectCard';
 import { makeStyles } from '@material-ui/core/styles';
-import {Box, Grid, Container} from '@material-ui/core';
+import { Box, Grid, Container } from '@material-ui/core';
 import AddProjectCard from '../layouts/AddProjectCard';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { useState } from 'react';
 const useStyles = makeStyles({
-    container:{
+    container: {
         height: 560,
         overflow: 'auto',
         marginBottom: 100,
@@ -53,26 +53,26 @@ const projectList = [
 
 ]
 const Projects = () => {
-const classes = useStyles();
-const theme = useTheme();
-const [projects, setProjects] = useState(projectList);
-return(
-    <>
-    <Container maxWidth='lg' >
-        <h2 style={{marginBottom: 40, marginTop:40}}>All projects</h2>
-        <Grid container justify='center' alignItems='center' spacing={4} className = {classes.container}>
-            {projects.map((project,index)=>
-                <Grid item xs = {8} sm = {7} md = {4} lg = {3} key={index}>
-                <ProjectCard 
-                project={project}
-                ></ProjectCard>
+    const classes = useStyles();
+    const theme = useTheme();
+    const [projects, setProjects] = useState(projectList);
+    return (
+        <>
+            <Container maxWidth='lg' >
+                <h2 style={{ marginBottom: 40, marginTop: 40 }}>All projects</h2>
+                <Grid container justify='center' alignItems='center' spacing={4} className={classes.container}>
+                    {projects.map((project, index) =>
+                        <Grid item xs={8} sm={7} md={4} lg={3} key={index}>
+                            <ProjectCard
+                                project={project}
+                            ></ProjectCard>
+                        </Grid>
+                    )}
+                    <AddProjectCard projects={projects} setProjects={setProjects}></AddProjectCard>
                 </Grid>
-            )}
-            <AddProjectCard projects = {projects} setProjects = {setProjects}></AddProjectCard>
-        </Grid>
-    </Container>
-    </>
-);
-  
+            </Container>
+        </>
+    );
+
 }
 export default Projects;
