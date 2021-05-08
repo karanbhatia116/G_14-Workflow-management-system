@@ -141,7 +141,7 @@ app.put('/downgradeuser', (req, res) => {
 });
 
 app.get('/findprojects', (req, res) => {
-    user_modal.findprojects()
+    user_modal.findProjects()
         .then(response => {
             if (response === undefined) {
                 res.status(500).send(undefined);
@@ -155,7 +155,77 @@ app.get('/findprojects', (req, res) => {
 });
 
 app.post('/addproject', (req, res) => {
-    user_modal.addproject(req.body)
+    user_modal.addProject(req.body)
+        .then(response => {
+            if (response === undefined) {
+                res.status(500).send(undefined);
+            } else {
+                res.status(200).send(response);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
+app.delete('/deleteproject', (req, res) => {
+    user_modal.deleteProject(req.body)
+        .then(response => {
+            if (response === undefined) {
+                res.status(500).send(undefined);
+            } else {
+                res.status(200).send(response);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
+app.get('/getnote', (req, res) => {
+    user_modal.getNote(req.body)
+        .then(response => {
+            if (response === undefined) {
+                res.status(500).send(undefined);
+            } else {
+                res.status(200).send(response);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
+app.post('/addnote', (req, res) => {
+    user_modal.addNote(req.body)
+        .then(response => {
+            if (response === undefined) {
+                res.status(500).send(undefined);
+            } else {
+                res.status(200).send(response);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
+app.delete('/deletenote', (req, res) => {
+    user_modal.deleteNote(req.body)
+        .then(response => {
+            if (response === undefined) {
+                res.status(500).send(undefined);
+            } else {
+                res.status(200).send(response);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
+app.put('/updatenote', (req, res) => {
+    user_modal.updateNote(req.body)
         .then(response => {
             if (response === undefined) {
                 res.status(500).send(undefined);

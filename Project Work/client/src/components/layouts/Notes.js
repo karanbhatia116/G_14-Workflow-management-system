@@ -1,58 +1,125 @@
-import {useState} from "react";
+import { useEffect, useState } from "react";
 import uuid from "react-uuid";
 import './../../styles/Notes.css';
 import Sidebar from '../layouts/Sidebar';
 import Main from '../layouts/Mainbar';
-
+import { userStore } from "../storage/store";
 
 function Notes() {
 
-  const [notes,setNotes] = useState([]);
-  const [activeNote, setActiveNote] = useState(false);
+    const [notes, setNotes] = useState([]);
+    const [activeNote, setActiveNote] = useState(false);
 
-  const onAddNote = () => {
-    const newNote = {
-      id: uuid(),
-      title: "Untitled Note",
-      body: "",
-      lastModified: Date.now(),
+    const onAddNote = () => {
+        const d = new Date();
+        const newNote = {
+            title: "Untitled Note",
+            text: "",
+            lastModified: `${d.getUTCDate()}-${(d.getUTCMonth() + 1)}-${d.getUTCFullYear()}`,
+            username: userStore.getState().loggedInUser.username
+        };
+        fetch(
+            'http://localhost:4000/addnote', {
+                method: 'POST',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newNote)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data !== undefined) {
+                    setNotes([data[0], ...notes]);
+                }
+            });
     };
 
-    setNotes([newNote,...notes]);
-  };
+    const onDeleteNote = (idToDelete) => {
+        fetch(
+            'http://localhost:4000/deletenote', {
+            method: 'DELETE',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ idToDelete })
+        })
+            .then(response => {
+                return (response.status === 200);
+            })
+            .then(data => {
+                if (data) {
+                    setNotes(notes.filter((note) => note.noteid !== idToDelete));
+                }
+            });
+    };
 
-  const onDeleteNote = (idToDelete) => {
-    setNotes(notes.filter((note) => note.id !== idToDelete ))
-  };
+    const onUpdateNote = (updatedNote) => {
+        fetch(
+            'http://localhost:4000/updatenote', {
+            method: 'PUT',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedNote)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {                
+                const updatedNotesArray = notes.map((note) => { 
+                    if (note.noteid === activeNote) {
+                        return data;
+                    }
+                    return note;
+                });
+                setNotes(updatedNotesArray);
+            });
+    };
 
-  const onUpdateNote = (updatedNote) => {
-    const updatedNotesArray = notes.map((note) => {
-      if(note.id === activeNote) {
-        return updatedNote;
-      }
+    useEffect(() => {
+        fetch(
+            'http://localhost:4000/getnote', {
+            method: 'GET',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data !== undefined) {
+                    setNotes([...data, ...notes]);
+                }
+            });
+        
+        return (() => { return true; });
+    },[]);
+    
 
-      return note;
-    });
-
-    setNotes(updatedNotesArray);
-  };
-
-  const getActiveNote = () => {
-    return notes.find((note) => note.id === activeNote) ;
-  };
-
-  return (
-    <div className="App">
-      <Sidebar 
-        notes={notes} 
-        onAddNote={onAddNote} 
-        onDeleteNote={onDeleteNote}
-        activeNote={activeNote}
-        setActiveNote={setActiveNote}
-      />
-      <Main activeNote={getActiveNote()} onUpdateNote={onUpdateNote} />
-    </div>
-  );
+    return (
+        <div className="App">
+            <Sidebar
+                notes={notes}
+                onAddNote={onAddNote}
+                onDeleteNote={onDeleteNote}
+                activeNote={activeNote}
+                setActiveNote={setActiveNote}
+                onUpdateNote={onUpdateNote}
+            />
+            <Main
+                notes={notes}
+                activeNote={activeNote}
+                onUpdateNote={onUpdateNote}
+            />
+        </div>
+    );
 }
 
 export default Notes;

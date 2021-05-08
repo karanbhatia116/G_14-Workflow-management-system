@@ -138,7 +138,7 @@ const downgradeUser = (body) => {
     })
 }
 
-const findprojects = () => {
+const findProjects = () => {
     return new Promise(function (resolve, reject) {
         pool.query(`SELECT * FROM projects;`, (error, results) => {
             if (error) {
@@ -153,7 +153,7 @@ const findprojects = () => {
     });
 };
 
-const addproject = (body) => {
+const addProject = (body) => {
     const { projectname, deadline, manager, team, description, image } = body;
     return new Promise(function (resolve, reject) {
         pool.query(`INSERT INTO projects VALUES ('${projectname}','${deadline}','${manager}',${team},'${description}',${image}) RETURNING projectname, deadline, manager, team, description, image;`, (error, results) => {
@@ -169,6 +169,91 @@ const addproject = (body) => {
     });
 };
 
+const deleteProject = (body) => {
+    const { projectname, deadline, manager, team, description, image } = body;
+    return new Promise(function (resolve, reject) {
+        pool.query(`INSERT INTO projects VALUES ('${projectname}','${deadline}','${manager}',${team},'${description}',${image}) RETURNING projectname, deadline, manager, team, description, image;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const getNote = (body) => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`SELECT * FROM notes;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const addNote = (body) => {
+    const { title, text, lastModified, username } = body; 
+    return new Promise(function (resolve, reject) {
+        pool.query(`INSERT INTO notes(notetitle, notetext, lastmodified, username) VALUES ('${title}','${text}','${lastModified}','${username}') RETURNING noteid, notetitle, notetext, lastmodified, username;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                for (let i in results.rows) {
+                    console.log(i);
+                }
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const deleteNote = (body) => {
+    const { idToDelete } = body;
+    return new Promise(function (resolve, reject) {
+        pool.query(`DELETE FROM notes WHERE noteid = '${idToDelete}' RETURNING noteid;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const updateNote = (body) => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`UPDATE notes SET notetitle = '${body.notetitle}', notetext = '${body.notetext}', lastmodified = '${body.lastmodified}', username = '${body.username}' WHERE noteid = '${body.noteid}' RETURNING noteid, notetitle, notetext, lastmodified, username;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                results.rows.forEach(row => {
+                    console.log(row);
+                });
+                resolve(results.rows[0]);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+
 module.exports = {
     getUsers,
     addUsers,
@@ -176,6 +261,10 @@ module.exports = {
     findUser,
     upgradeUser,
     downgradeUser,
-    findprojects,
-    addproject
+    findProjects,
+    addProject,
+    getNote,
+    addNote,
+    deleteNote,
+    updateNote
 };
