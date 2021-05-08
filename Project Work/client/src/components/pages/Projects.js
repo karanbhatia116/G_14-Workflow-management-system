@@ -2,9 +2,8 @@ import ProjectCard from '../layouts/ProjectCard';
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, Container} from '@material-ui/core';
 import AddProjectCard from '../layouts/AddProjectCard';
-import { useTheme } from '@material-ui/core/styles';
 import {v4 as uuid} from 'uuid';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import axios from 'axios';
 const useStyles = makeStyles({
     container:{
@@ -63,7 +62,6 @@ const Projects = () => {
     
 // });
 const classes = useStyles();
-const theme = useTheme();
 const [projects, setProjects] = useState(projectList);
 return(
     <>

@@ -6,6 +6,7 @@ import Lists from "../pages/Lists";
 import Notes from "../layouts/Notes"
 import Calender from '../layouts/Calender';
 import ResourceList from "../pages/resourceList";
+import Settings from '../layouts/Settings';
 
 export const admin = [
     { id: 1, path: "/Home", name: "Home", target: < Home /> },
@@ -15,7 +16,8 @@ export const admin = [
     { id: 5, path: "/Calender", name: "Calender", target: < Calender /> },
     { id: 6, path: "/Discussion", name: "Discussion", target: < Discussion /> },
     { id: 7, path: "/Admin", name: "Admin", target: <Administration /> },
-    { id: 8, path: "/Resource", name: "Resource", target: <ResourceList/> }
+    { id: 8, path: "/Resource", name: "Resources", target: <ResourceList/> },
+    { id: 9, path: "/Settings", name: "Settings", target: <Settings />}
     
 ];
 
@@ -26,7 +28,8 @@ export const manager = [
     { id: 4, path: "/Notes", name: "Notes", target: <Notes /> },
     { id: 5, path: "/Calender", name: "Calender", target: < Calender /> },
     { id: 6, path: "/Discussion", name: "Discussion", target: < Discussion /> },
-    { id: 7, path: "/Resource", name: "Resource", target: <ResourceList/> }
+    { id: 7, path: "/Resource", name: "Resource", target: <ResourceList/> },
+    { id: 8, path: "/Settings", name: "Settings", target: <Settings />}
 ];
 
 export const engineer = [
@@ -36,5 +39,6 @@ export const engineer = [
     { id: 4, path: "/Notes", name: "Notes", target: <Notes /> },
     { id: 5, path: "/Calender", name: "Calender", target: < Calender /> },
     { id: 6, path: "/Discussion", name: "Discussion", target: < Discussion /> },
-    { id: 7, path: "/Resource", name: "Resource", target: <ResourceList/> }
+    { id: 7, path: "/Resource", name: "Resource", target: <ResourceList/> },
+    { id: 8, path: "/Settings", name: "Settings", target: <Settings />}
 ];
