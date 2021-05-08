@@ -8,8 +8,6 @@ import { useSelector } from "react-redux";
 import socket from "./components/utils/socket";
 import { userStore } from "./components/storage/store";
 import { HAS_READ, SENT_MSG } from "./components/storage/actiontype";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 //This is to hide navabar on invalid paths
 function ToggleNavbar(props) {

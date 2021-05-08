@@ -21,7 +21,6 @@ function Mainbar({ activeNote, onUpdateNote }){
                     id="title" 
                     value={activeNote.title} 
                     onChange={(e) => onEditField("title", e.target.value)} 
-                    autofocus 
                 />
                 <textarea 
                     id="body" 

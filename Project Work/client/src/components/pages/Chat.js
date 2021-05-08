@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../../styles/Chat.css';
-import {Avatar,IconButton, StylesProvider} from "@material-ui/core";
+import {Avatar,IconButton} from "@material-ui/core";
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
-import AddIcCallOutlinedIcon from '@material-ui/icons/AddIcCallOutlined';
-import FileButton from '@material-ui/icons/AttachFile';
-import { CookiesProvider, Cookies,useCookies } from 'react-cookie';
-import io from "socket.io-client";
+import SendButton from '@material-ui/icons/SendOutlined';
 import socket from '../utils/socket'
 import axios from "axios";
 import Picker from 'emoji-picker-react';
@@ -26,7 +23,7 @@ function Chat(props) {
         } 
     }
 
-    useEffect(async () => {
+    useEffect(() => {
         
         axios.get(url).then((res)=>{
             setMessages([]);
@@ -92,8 +89,8 @@ function Chat(props) {
         <>
         <div className = 'chat'>
             <div className="chat__header">
-            <Avatar  src = ""/>
-            <p>Team Discussion</p>
+            <Avatar  src={`https://avatars.dicebear.com/api/human/${userName}.svg`}/>
+            <p>{userName}</p>
             </div>
 
             <div className="chat__body">
@@ -131,7 +128,7 @@ function Chat(props) {
                     <button type = 'submit' onClick = {sendMessage}>Send message</button>
                 </form>
                 <IconButton>
-                 <FileButton></FileButton>
+                <SendButton></SendButton>
                 </IconButton>
             </div>
             {pickerVisible && width===768?(

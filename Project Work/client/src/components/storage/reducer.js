@@ -12,7 +12,11 @@ export default function reducer(state, action) {
                         ...state.loggedInUser,
                         usertype: action.payload.usertype,
                         username: action.payload.username,
-                        password: action.payload.password
+                        password: action.payload.password,
+                        full_name: action.payload.full_name,
+                        title: action.payload.title,
+                        email:action.payload.email,
+                        bio: action.payload.bio
                     }
                 };
                 //Assign the links based on the type of user
@@ -49,7 +53,11 @@ export default function reducer(state, action) {
                     ...state.loggedInUser,
                     usertype: null,
                     username: null,
-                    password: null
+                    password: null,
+                    full_name: null,
+                    title: null,
+                    email: null,
+                    bio: null
                 }
             };
         }

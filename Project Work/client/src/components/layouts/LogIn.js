@@ -143,7 +143,11 @@ function LogIn() {
                         payload: {
                             usertype: data.usertype,
                             username: data.username,
-                            password: data.password
+                            password: data.password,
+                            full_name: data.full_name,
+                            email: data.email,
+                            title: data.title,
+                            bio: data.bio
                         }
                     });
                     //set the cookie or set the local storage to keep user loggedIn during refresh

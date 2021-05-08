@@ -5,8 +5,6 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageUploadModal from './ImageUploadModal';
-import { DELETE_PROJECT } from '../storage/actiontype';
-import { userStore } from '../storage/store';
 
 const managers = [
     { title: 'The Shawshank Redemption', year: 1994 },
