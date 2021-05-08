@@ -196,8 +196,8 @@ const ProjectModal = ({ isOpen, setOpen, title, setTitle, description, setDescri
     }
     return (
         <>
-            <ImageUploadModal openUpload={openUpload} setOpenUpload={setOpenUpload}></ImageUploadModal>
-            <Dialog open={isOpen} className={classes.dialog__container} onClose={() => setOpen(false)}>
+        <ImageUploadModal openUpload={openUpload} setOpenUpload={setOpenUpload} setImage={setImage}></ImageUploadModal>
+           <Dialog open={isOpen} className={classes.dialog__container} onClose={()=>setOpen(false)}>
                 <DialogTitle id='simple-dialog-title'>
                     <div className={classes.project__title}>
                         <Typography variant={'h5'} component={'h2'} style={{ flex: 1, alignItems: 'center' }}>

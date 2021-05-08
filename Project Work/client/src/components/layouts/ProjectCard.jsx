@@ -36,37 +36,35 @@ const ProjectCard = (props) => {
     const [team, setTeam] = useState(props.project.team);
     return (
         <>
-            <ProjectModal isOpen={isOpen}
-                setOpen={setOpen}
-                title={title}
-                setTitle={setTitle}
-                description={description}
-                setDescription={setDescription}
-                image={image}
-                setImage={setImage}
-                team={team}
-                setTeam={setTeam}
-                projects={props.projects}
-                setProjects={props.setProjects}
-            ></ProjectModal>
-            <Card className={classes.root} onClick={() => setOpen(true)}>
-                <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image={props.project.img}
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {props.project.projectname}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {props.project.description}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions>
-                    <Button size="small" color="primary" className={classes.button}>
-                        Details
+        <ProjectModal isOpen = {isOpen} 
+        setOpen={setOpen} 
+        title={title} 
+        setTitle={setTitle} 
+        description={description} 
+        setDescription={setDescription}
+        image = {image}
+        setImage={setImage}
+        team={team}
+        setTeam={setTeam}
+        ></ProjectModal>
+        <Card className={classes.root} onClick={()=>setOpen(true)}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              image={image}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                {title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                  {description}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button size="small" color="primary" className = {classes.button}>
+              Details
             </Button>
                 </CardActions>
             </Card>

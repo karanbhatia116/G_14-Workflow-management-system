@@ -1,5 +1,6 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
 
+
 * {
   box-sizing: border-box;
 }
@@ -142,4 +143,11 @@ textarea {
   padding: 0 25px 25px 25px;
   font-size: 1rem;
   line-height: 2rem;
+}
+
+@media only screen and (max-width:620px) {
+  /* For mobile phones: */
+  .app-main, .app-sidebar{
+    width:100%;
+  }
 }

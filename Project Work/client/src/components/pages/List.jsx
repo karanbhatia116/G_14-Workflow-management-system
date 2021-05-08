@@ -1,47 +1,69 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import {Button, IconButton, Input, Paper, Collapse} from '@material-ui/core';
 import Close from '@material-ui/icons/Close';
 import {Droppable, Draggable} from 'react-beautiful-dnd';
 import Card from './Card';
 import {v4 as uuid} from 'uuid';
 import Delete from '@material-ui/icons/Delete';
+import axios from 'axios';
 const List = ({id, list, lists, setLists, render, setRender})=>{
     const [newTitle, setNewTitle] = useState(list.name);
     const [isOpen, setOpen] = useState(false);
     const [newInput, setNewInput] = useState('');
     const title = useRef();
-    // useEffect(()=>{
-    //    setNewTitle(newTitle);
-    // }, []);
-
-    const handleTitleChange = async ()=>{
-        console.log(newTitle);
-        await setLists({
-                ...lists,
-                [id]:{
-                    name: newTitle,
-                    items: list.items
-                }
+    useEffect(()=>{
+        setLists({
+            ...lists,
+            [id]:{
+                ...list,
+                name: newTitle,
+                items: list.items
+            }
         });
+        return (() => { return true; });
+    }, [newTitle]);
+
+    // const completeTitleChange = async()=>{
+    //         setLists({
+    //         ...lists,
+    //         [id]:{
+    //             ...list,
+    //             name: newTitle,
+    //             items: list.items
+    //         }
+    //     });
+    // }
+    const handleTitleChange = async (e)=>{
+        setNewTitle(e.target.value);
     }
     const handleOnChange = (e)=>{
         setNewInput(e.target.value);
     }
     const handleOnClick = async ()=>{
         if(!isOpen)
-            await setOpen(!isOpen);
+            setOpen(!isOpen);
         if(newInput)
         {
-            await setLists({
+            const new_task_id = uuid().toString();
+            setLists({
                 ...lists,
                 [id]:{
                     ...list,
-                    items: [...list.items, {cardContent: newInput, id: uuid().toString()}],
+                    items: [...list.items, {cardContent: newInput, id: new_task_id}],
                 }
             });
-            await setNewInput('');
-            await setOpen(!isOpen);
-            // axios.post(`/todos`, lists);
+            setNewInput('');
+            setOpen(!isOpen);
+            console.log("list._id: ", list._id);
+            // axios.post('/addtask', {
+            //     column_id: list._id,
+            //     column_name: newTitle,
+            //     new_data: {
+            //         cardContent: newInput,
+            //         id: new_task_id
+            //     }
+            // }).then(res=> console.log(res.data));
+
         }
         else if(!newInput)
         {
@@ -51,6 +73,11 @@ const List = ({id, list, lists, setLists, render, setRender})=>{
     
     const handleDeleteList = async ()=>{
         var listIndex;
+        await axios.post('/deletelist', {
+            column_id:list._id,  
+            column_name: newTitle
+        });
+        console.log("List._id of deleted list: ", list["id"]);
         for(var prop in lists){
             if(lists.hasOwnProperty(prop))
             {
@@ -67,6 +94,7 @@ const List = ({id, list, lists, setLists, render, setRender})=>{
         await setRender((r)=>{
             return {r: !render};
         });
+
     }
     return (
         <div className = 'list__container'>
@@ -76,7 +104,7 @@ const List = ({id, list, lists, setLists, render, setRender})=>{
                 value = {newTitle} 
                 style={{fontSize:'28px', color:'white', width:'100%', textAlign:'center'}} 
                 id = {id}
-                onChange = {()=>{setNewTitle(title.current.value)}}
+                onChange = {handleTitleChange}
                 >
                 </Input>
                 <IconButton onClick = {handleDeleteList}>
@@ -96,7 +124,7 @@ const List = ({id, list, lists, setLists, render, setRender})=>{
                                     {...provided.dragHandleProps} 
                                     className = 'dummy__container'
                                     >
-                                    <Card cardContent = {cardContent} lists = {lists} setLists = {setLists} list = {list} render = {render} setRender = {setRender}/>
+                                    <Card id = {id} cardContent = {cardContent} lists = {lists} setLists = {setLists} list = {list} render = {render} setRender = {setRender}/>
                                     </div>
                                     )}
                                 </Draggable>

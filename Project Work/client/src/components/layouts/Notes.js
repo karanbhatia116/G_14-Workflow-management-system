@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import uuid from "react-uuid";
 import './../../styles/Notes.css';
 import Sidebar from '../layouts/Sidebar';
 import Main from '../layouts/Mainbar';
@@ -15,7 +14,7 @@ function Notes() {
         const newNote = {
             title: "Untitled Note",
             text: "",
-            lastModified: `${d.getUTCDate()}-${(d.getUTCMonth() + 1)}-${d.getUTCFullYear()}`,
+            lastModified: `${d.getUTCFullYear()}-${(d.getUTCMonth() + 1)}-${d.getUTCDate()}`,
             username: userStore.getState().loggedInUser.username
         };
         fetch(
@@ -57,7 +56,12 @@ function Notes() {
             });
     };
 
-    const onUpdateNote = (updatedNote) => {
+    const onUpdateNote = async (updatedNote) => {
+        const d = await new Date();
+        updatedNote = {
+            ...updatedNote,
+            lastmodified: `${d.getUTCFullYear()}-${(d.getUTCMonth() + 1)}-${d.getUTCDate()}`
+        }
         fetch(
             'http://localhost:4000/updatenote', {
             method: 'PUT',

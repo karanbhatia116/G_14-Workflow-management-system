@@ -1,11 +1,9 @@
 import ProjectCard from '../layouts/ProjectCard';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Container } from '@material-ui/core';
+import {Grid, Container} from '@material-ui/core';
 import AddProjectCard from '../layouts/AddProjectCard';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
-import { v4 as uuid } from 'uuid';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+
 const useStyles = makeStyles({
     container: {
         height: 560,
@@ -13,6 +11,14 @@ const useStyles = makeStyles({
         marginBottom: 100,
     }
 });
+// useEffect(()=>{
+//     axios.get('/projects').then(res=> {
+//         console.log(res.data);
+//         projectList.push(res.data);
+//         console.log(projectList);
+//     });
+
+// });
 const Projects = () => {
     const classes = useStyles();
     const [projects, setProjects] = useState([]);

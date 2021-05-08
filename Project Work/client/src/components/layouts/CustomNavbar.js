@@ -32,7 +32,7 @@ function CustomNavbar(props) {
 
     return (
         <Fragment key="left">
-            <nav className="navbar navbar-sticky-top navbar-dark bg-primary" style={{zIndex:100}}>
+            <nav className="navbar sticky-top navbar-dark bg-primary" style={{zIndex:100}}>
                 <div className="container-fluid">
                     <Link className="navbar-brand" to={props.navlinks[0].path} onClick={() => activatelink(1)}>
                         <img src={logo2} width="auto" height="47em"/>

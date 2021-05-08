@@ -1,8 +1,6 @@
 import {makeStyles} from '@material-ui/core/styles';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import {v4 as uuid} from 'uuid';
-import { ADDED_PROJECT } from '../storage/actiontype';
-import { userStore } from '../storage/store';
 const useStyles = makeStyles({
     project__add__card:{
         height: 438,

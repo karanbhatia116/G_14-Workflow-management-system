@@ -15,6 +15,9 @@
 # misc
 .DS_Store
 /client/.DS_Store
+../.DS_Store
+../.vscode/
+/uploads
 .env.local
 .env.development.local
 .env.test.local

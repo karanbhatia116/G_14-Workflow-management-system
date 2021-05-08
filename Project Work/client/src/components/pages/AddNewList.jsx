@@ -2,16 +2,38 @@ import React from 'react';
 import '../../styles/AddNewList.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import {v4 as uuid} from 'uuid';
+import axios from  'axios';
 function AddNewList({lists, setLists}) {
-    const handleAddNewList = ()=>{
-        setLists({
-            ...lists,
-            [uuid()]:{
-                name: '',
-                items: []
+
+    function ObjectLength( object ) {
+        var length = 0;
+        for( var key in object ) {
+            if( object.hasOwnProperty(key) ) {
+                ++length;
             }
-        })
+        }
+        return length;
+    };    
+    const handleAddNewList = async ()=>{
+
+        const response = await axios.post('/addlist', {
+            name: '',
+            items: []
+        });
+        console.log("column_id: ", response.data.column_id);
+        console.log(typeof(response.data.column_id));
+        console.log("Lists before adding");
+        console.log(lists);
+        console.log(ObjectLength(lists));
+        setLists({
+                ...lists,
+                [ObjectLength(lists)]:{
+                    "name": '',
+                    "items": [],
+                    "_id": response.data.column_id
+                }
+            });
+        
     }
     return (
         <div className = "lists__add__newlist" onClick = {handleAddNewList}>
