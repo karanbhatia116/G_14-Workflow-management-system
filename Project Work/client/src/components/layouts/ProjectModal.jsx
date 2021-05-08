@@ -151,6 +151,49 @@ const ProjectModal = ({ isOpen, setOpen, title, setTitle, description, setDescri
                 console.log(error);
             });
     }
+
+    const handleDelete = () => {
+        setTitle(tempTitle);
+        setDescription(tempDescription);
+        if (errorTeam || !team) {
+            setErrorTeam(true);
+        }
+        else {
+            setOpen(false);
+        }
+
+        let data = {
+            projectname: tempTitle,
+            deadline: selectedDate,
+            manager: manager.title,
+            team: parseInt(team, 10),
+            description: tempDescription,
+            image: null
+        };
+        fetch(
+            'http://localhost:4000/deleteproject', {
+            method: 'DELETE',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                //check the response
+                if (response.status === 500) {
+                    return undefined;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data !== undefined) {
+                    setProjects([...projects.slice(0, projects.length - 1), ...data]);
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+    }
     return (
         <>
             <ImageUploadModal openUpload={openUpload} setOpenUpload={setOpenUpload}></ImageUploadModal>
@@ -230,7 +273,7 @@ const ProjectModal = ({ isOpen, setOpen, title, setTitle, description, setDescri
                     <Button size="small" color="primary" variant="outlined" className={classes.save__button} onClick={handleSave}>
                         Save
                 </Button>
-                    <Button size="small" color="secondary" variant="outlined" className={classes.delete__button}>
+                    <Button size="small" color="secondary" variant="outlined" className={classes.delete__button} onClick={handleDelete}>
                         Delete
                 </Button>
                 </DialogContent>
