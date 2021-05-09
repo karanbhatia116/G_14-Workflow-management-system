@@ -127,6 +127,7 @@ body{
     }
    
 }
+
 /**************************************************
 *******************Authentication******************
 **************************************************/
@@ -142,7 +143,7 @@ body{
 }
 
 .authentication a:hover{   
-    color: var(--base-color-3);
+    color: var(--base-color-2);
 }
 
 .authentication .authentication-body{

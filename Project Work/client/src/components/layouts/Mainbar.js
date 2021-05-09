@@ -1,38 +1,47 @@
 import ReactMarkdown from "react-markdown";
 
-function Mainbar({ activeNote, onUpdateNote }){
+function Mainbar({ notes, activeNote, onUpdateNote }) {
+
+    let updatedNote = notes.find((note) => note.noteid === activeNote);
 
     const onEditField = (key, value) => {
-        onUpdateNote({
-            ...activeNote,
-            [key]: value,
-            lastModified: Date.now(),
-        });
+        updatedNote = {
+            ...updatedNote,
+            [key]: value
+        };
     };
 
-    if(!activeNote)
+    if (!activeNote)
         return <div className="no-active-note">No note selected</div>;
 
     return (
         <div className="app-main">
             <div className="app-main-note-edit">
-                <input 
-                    type="text" 
-                    id="title" 
-                    value={activeNote.title} 
-                    onChange={(e) => onEditField("title", e.target.value)} 
+                <input
+                    type="text"
+                    id="title"
+                    value={activeNote.notetitle}
+                    onChange={(e) => onEditField("notetitle", e.target.value)}
+                    autoFocus
                 />
-                <textarea 
-                    id="body" 
+                <textarea
+                    id="body"
                     placeholder="Write your note here..."
-                    value={activeNote.body}
-                    onChange={(e) => onEditField("body", e.target.value)}
+                    value={activeNote.notetext}
+                    onChange={(e) => onEditField("notetext", e.target.value)}
                 />
             </div>
-
+            <button
+                onClick={() => onUpdateNote(updatedNote)}>
+                Update
+            </button>
             <div className="app-main-note-preview">
-                <h1 className="preview-title">{activeNote.title}</h1>
-                <ReactMarkdown className="markdown-preview">{activeNote.body}</ReactMarkdown>
+                <h1 className="preview-title" style={{color:"black"}}>
+                    {notes.find((note) => note.noteid === activeNote).notetitle}
+                </h1>
+                <ReactMarkdown className="markdown-preview">
+                    {notes.find((note) => note.noteid === activeNote).notetext}
+                </ReactMarkdown>
             </div>
         </div>
     )

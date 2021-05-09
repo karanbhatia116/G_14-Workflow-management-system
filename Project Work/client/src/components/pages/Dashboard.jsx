@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Grid, makeStyles, Typography, Avatar } from '@material-ui/core';
 import { ProgressBar } from '../layouts/ProgressBar';
 import DashProject from './DashProject';
@@ -132,7 +132,7 @@ const useStyles = makeStyles({
     }
 });
 
-const projects = []; // get this array from backend!
+let projects = []; // get this array from backend!
 const Dashboard = () => {
     const classes = useStyles();
     const userName = userStore.getState().loggedInUser.username;
@@ -148,6 +148,33 @@ const Dashboard = () => {
         project_description: 'This is a new description',
         projectDeadline: new Date()
     }
+
+    useEffect(() => {
+        fetch('/findprojects', {
+            method: 'GET',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => {
+                //check the response
+                if (response.status === 500) {
+                    return undefined;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data !== undefined) {
+                    console.log(data);
+                    projects = [...data.slice(0, 3)];
+                }
+            });
+        return () => {
+            return true;
+        }
+    }, [])
+
     return (
         <Container maxWidth='lg' style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Grid container spacing={2} className={classes.root}>
@@ -167,15 +194,13 @@ const Dashboard = () => {
                         <Typography style={{ fontSize: 24, marginBottom: 5 }}><b>Current Projects</b></Typography>
                         <div className={classes.projects}>
                             {/* Map through all project from the backend here and pass as project object*/}
-                            <Link to='/Projects'>
-                                <DashProject project={project}></DashProject>
-                            </Link>
-                            <Link to='/Projects'>
-                                <DashProject project={project}></DashProject>
-                            </Link>
-                            <Link to='/Projects'>
-                                <DashProject project={project}></DashProject>
-                            </Link>
+                            {
+                                projects.map((project, index) => {
+                                    <Link to='/Projects' key={index}>
+                                        <DashProject project={project}></DashProject>
+                                    </Link>
+                                })
+                            }
                         </div>
                     </div>
                 </Grid>

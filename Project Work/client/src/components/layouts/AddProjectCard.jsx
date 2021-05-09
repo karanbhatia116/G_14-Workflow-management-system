@@ -27,7 +27,7 @@ function AddProjectCard({projects,setProjects}) {
         setProjects([
             ...projects,
             {
-                id: uuid(),
+                id: null,
                 img: "https://via.placeholder.com/300x60?text=Add+Image",
                 project_title: 'Project Title',
                 team_assigned: null,

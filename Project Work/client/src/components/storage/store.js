@@ -9,6 +9,7 @@ let initialuserStore = {
         username: null,
         password: null,
         full_name: null,
+        email: null,
         title: null,
         bio: null
     },
@@ -36,6 +37,7 @@ if (user) {
             username: user.username,
             password: user.password,
             full_name: user.full_name,
+            email: user.email,
             title: user.title,
             bio: user.bio
         }

@@ -1,13 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Switch, Route, Redirect, withRouter } from "react-router-dom";
 import CustomNavbar from "./components/layouts/CustomNavbar";
-import Authentication from "./components/pages/Authentication";
+import Home from "./components/pages/Home";
 import NotFound from "./components/pages/NotFound";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import socket from "./components/utils/socket";
 import { userStore } from "./components/storage/store";
 import { HAS_READ, SENT_MSG } from "./components/storage/actiontype";
+import Authentication from './components/pages/Authentication';
 
 //This is to hide navabar on invalid paths
 function ToggleNavbar(props) {

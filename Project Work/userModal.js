@@ -13,6 +13,17 @@ const findUser = (body) => {
     });
 };
 
+const getManager = () => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`SELECT username from users WHERE usertype = 1;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            resolve(results.rows);
+        });
+    });
+};
+
 const getUsers = (body) => {
     return new Promise(function (resolve, reject) {
         const { user, pwd } = body;
@@ -53,7 +64,7 @@ const addUsers = (body) => {
                     if (err) {
                         reject(err);
                     }
-                    if (result.rows.length > 0) {
+                    if (results !== undefined) {
                         const user = result.rows[0];
                         resolve(user);
                     } else {
@@ -80,7 +91,7 @@ const changepwd = (body) => {
                     if (err) {
                         reject(err);
                     }
-                    if (result.rows.length > 0) {
+                    if (results !== undefined) {
                         const user = result.rows[0];
                         resolve(user);
                     } else {
@@ -101,7 +112,7 @@ const upgradeUser = (body) => {
             if (error) {
                 reject(error);
             }
-            if (results.rows.length > 0) {
+            if (results !== undefined) {
                 const user = results.rows[0];
                 resolve(user);
             } else {
@@ -123,7 +134,7 @@ const downgradeUser = (body) => {
                     if (error) {
                         reject(error);
                     }
-                    if (results.rows.length > 0) {
+                    if (results !== undefined) {
                         const user = results.rows[0];
                         resolve(user);
                     } else {
@@ -138,11 +149,168 @@ const downgradeUser = (body) => {
     })
 }
 
+const findProjects = () => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`SELECT * FROM projects;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const findProject = (body) => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`SELECT * FROM projects WHERE id='${body.tempId}';`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows[0]);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const addProject = (body) => {
+    const { id, projectname, deadline, manager, team, description, image } = body;
+    return new Promise(function (resolve, reject) {
+        pool.query(`INSERT INTO projects( img, project_title, team_assigned, project_manager, project_description, projectdeadline) VALUES ('${image}','${projectname}',${team},'${manager}','${description}','${deadline}') RETURNING id, img, project_title, team_assigned, project_manager, project_description, projectdeadline;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows[0]);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const updateProject = (body) => {
+    const { id, projectname, deadline, manager, team, description, image } = body;
+
+    return new Promise(function (resolve, reject) {
+        pool.query(`UPDATE projects SET img = '${image}', project_title = '${projectname}', team_assigned = ${team}, project_manager = '${manager}', project_description = '${description}', projectdeadline = '${deadline}' WHERE id='${id}' RETURNING id, img, project_title, team_assigned, project_manager, project_description, projectdeadline;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows[0]);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const deleteProject = (body) => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`DELETE FROM projects WHERE id='${body.id}' RETURNING id;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows[0]);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const getNote = (body) => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`SELECT * FROM notes;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const addNote = (body) => {
+    const { title, text, lastModified, username } = body; 
+    return new Promise(function (resolve, reject) {
+        pool.query(`INSERT INTO notes(notetitle, notetext, lastmodified, username) VALUES ('${title}','${text}','${lastModified}','${username}') RETURNING noteid, notetitle, notetext, lastmodified, username;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                for (let i in results.rows) {
+                    console.log(i);
+                }
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const deleteNote = (body) => {
+    const { idToDelete } = body;
+    return new Promise(function (resolve, reject) {
+        pool.query(`DELETE FROM notes WHERE noteid = '${idToDelete}' RETURNING noteid;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const updateNote = (body) => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`UPDATE notes SET notetitle = '${body.notetitle}', notetext = '${body.notetext}', lastmodified = '${body.lastmodified}', username = '${body.username}' WHERE noteid = '${body.noteid}' RETURNING noteid, notetitle, notetext, lastmodified, username;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                results.rows.forEach(row => {
+                    console.log(row);
+                });
+                resolve(results.rows[0]);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+
 module.exports = {
     getUsers,
+    getManager,
     addUsers,
     changepwd,
     findUser,
     upgradeUser,
-    downgradeUser
+    downgradeUser,
+    findProjects,
+    findProject,
+    addProject,
+    updateProject,
+    deleteProject,
+    getNote,
+    addNote,
+    deleteNote,
+    updateNote
 };

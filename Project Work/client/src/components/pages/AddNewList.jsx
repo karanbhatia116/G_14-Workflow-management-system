@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import '../../styles/AddNewList.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import {v4 as uuid} from 'uuid';
 import axios from  'axios';
 function AddNewList({lists, setLists}) {
 

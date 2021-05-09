@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../../styles/Chat.css';
 import { Avatar, IconButton } from "@material-ui/core";
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
+import FileButton from '@material-ui/icons/AttachFile';
 import SendButton from '@material-ui/icons/SendOutlined';
 import socket from '../utils/socket'
 import axios from "axios";

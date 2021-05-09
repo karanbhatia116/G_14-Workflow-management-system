@@ -113,7 +113,7 @@ function AddUser() {
         }
 
         //fetch data from the users database using fetch API
-        fetch('http://localhost:4000/adduser', {
+        fetch('/adduser', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': '*',

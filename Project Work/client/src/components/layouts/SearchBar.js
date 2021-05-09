@@ -18,7 +18,7 @@ function SearchBar() {
     }, [search]);
     function handleChange() {
         //fetch data from the users database using fetch API
-        fetch('http://localhost:4000/finduser', {
+        fetch('/finduser', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -46,7 +46,7 @@ function SearchBar() {
     const upgradeUser = (user, e) => {
         e.preventDefault();
         if (user.username !== loggedInUser.username) {
-            fetch('http://localhost:4000/upgradeuser', {
+            fetch('/upgradeuser', {
                 method: 'PUT',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -73,7 +73,7 @@ function SearchBar() {
     const downgradeUser = (user, e) => {
         e.preventDefault();
         if (user.username !== loggedInUser.username) {
-            fetch('http://localhost:4000/downgradeuser', {
+            fetch('/downgradeuser', {
                 method: 'PUT',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
