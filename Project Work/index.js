@@ -13,14 +13,14 @@ const io = require('socket.io')(http, {
 const pool = require('./db');
 const mongoDBURI = process.env.MONGODB_URL;
 const mongoose = require('mongoose');
-var ObjectId = require('mongodb').ObjectId; 
-mongoose.connect(mongoDBURI, {useNewUrlParser: true, useUnifiedTopology: true});
+var ObjectId = require('mongodb').ObjectId;
+mongoose.connect(mongoDBURI, { useNewUrlParser: true, useUnifiedTopology: true });
 const mongodb = mongoose.connection;
-mongodb.on('connected', ()=>console.log('MongoDB connected!'));
+mongodb.on('connected', () => console.log('MongoDB connected!'));
 const Schema = mongoose.Schema;
 var taskListSchema = new Schema({
-name: String, 
-items: Array
+    name: String,
+    items: Array
 });
 var List = mongoose.model('Lists', taskListSchema);
 
@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "client/build")));
 }
 const user_modal = require('./userModal');
-const upload = multer({dest: 'uploads/'});
+const upload = multer({ dest: 'uploads/' });
 
 io.on("connection", (socket) => {
     console.log(socket.id);
@@ -305,42 +305,38 @@ app.post('/changeusersettings', (req,res)=>{
         title = '${req.body.title}',
         bio = '${req.body.bio}'
         where username = '${req.body.username}'
-        `).then(()=>{
+        `).then(() => {
             res.send({
                 success: true,
             });
         });
     }
-    catch(err){
+    catch (err) {
         console.log(err);
         res.send({
-            success:false
+            success: false
         }).sendStatus(500);
     }
 });
-app.post('/addtask', async (req, res)=>{
+app.post('/addtask', async (req, res) => {
     console.log(req.body);
-    await List.findById(req.body.column_id, (err, docs)=>{
+    await List.findById(req.body.column_id, (err, docs) => {
         console.log(docs);
-        if(err) 
-        {
+        if (err) {
             console.log(err);
             res.send({
-                success:false
+                success: false
             });
         }
-        else
-        {
-            List.findOneAndUpdate({_id: req.body.column_id}, {items: [...docs.items, req.body.new_data]}, (err, doc)=>{
-                if(err)
-                {
+        else {
+            List.findOneAndUpdate({ _id: req.body.column_id }, { items: [...docs.items, req.body.new_data] }, (err, doc) => {
+                if (err) {
                     console.log(err);
                     res.send({
-                        success:false
+                        success: false
                     });
                 }
-                else
-                {
+                else {
                     console.log(doc.items);
                     res.send({
                         success: true,
@@ -351,35 +347,34 @@ app.post('/addtask', async (req, res)=>{
         }
     })
 });
-app.post('/deletetask', (req,res)=>{
-    List.findById(column_id, (err, doc)=>{
+app.post('/deletetask', (req, res) => {
+    List.findById(column_id, (err, doc) => {
         if (err) throw err;
-        else
-        {
-            List.findByIdAndUpdate(req.body.column_id, {items: doc.items.filter(item => item.id !==req.body.card_id)}, (err, result)=>{
-                if(err) res.send(400);
-                else
-                {
+        else {
+            List.findByIdAndUpdate(req.body.column_id, { items: doc.items.filter(item => item.id !== req.body.card_id) }, (err, result) => {
+                if (err) res.send(400);
+                else {
                     res.sendStatus(200);
                 }
             });
-           
+
         }
 
-       
+
     })
-    
+
 });
-app.post('/addlist', async (req,res)=>{
-    var column =  new List({
+app.post('/addlist', async (req, res) => {
+    var column = new List({
         name: '',
         items: []
     });
-    column.save().then(()=>{
+    column.save().then(() => {
         res.send({
-        success: true,
-        message: 'List added successfully',
-        column_id: column._id})
+            success: true,
+            message: 'List added successfully',
+            column_id: column._id
+        })
     }).catch(err => console.log(err));
     // List.insertMany({name: '', items: []}).then(()=>{
     //     res.send({
@@ -389,17 +384,17 @@ app.post('/addlist', async (req,res)=>{
     //     });
     // }).catch(err => console.log(err));
 
-    
+
 });
-app.post('/deletelist', async (req, res)=>{
-    List.findByIdAndDelete(req.body.column_id, (err)=>{
-        if(err)
-        res.sendStatus(500);
+app.post('/deletelist', async (req, res) => {
+    List.findByIdAndDelete(req.body.column_id, (err) => {
+        if (err)
+            res.sendStatus(500);
         else
-        res.sendStatus(200);
+            res.sendStatus(200);
     });
 });
-app.post('/updatelists', async (req, res)=>{
+app.post('/updatelists', async (req, res) => {
     const lists = req.body;
     console.log(lists);
     // let dbLists;
@@ -411,74 +406,72 @@ app.post('/updatelists', async (req, res)=>{
     //     await List.findByIdAndRemove(dbLists[key]._id);
     //    }
     // }
-    for(var key in lists){
-        if(lists.hasOwnProperty(key)){
+    for (var key in lists) {
+        if (lists.hasOwnProperty(key)) {
             await List.findByIdAndUpdate(lists[key]._id, lists[key]);
         }
     }
 });
-app.get('/lists', async (req, res)=>{
-    List.find({}, (err, docs)=>{
-        if(err) res.send({success: false, err: "Internal Server error"});
-        else
-        {
-            res.send({success: true, data: docs});
+app.get('/lists', async (req, res) => {
+    List.find({}, (err, docs) => {
+        if (err) res.send({ success: false, err: "Internal Server error" });
+        else {
+            res.send({ success: true, data: docs });
         }
     });
 });
-app.get('/projects', async (req, res)=>{
+app.get('/projects', async (req, res) => {
     const projects = await pool.query("SELECT * from projects");
     if (projects.rows.length === 0)
         res.status(200);
     else
         res.status(200).send(projects.rows);
 });
-app.post('/uploadImg', upload.single('img'), (req,res)=>{
-    if(!req.file)
-    res.send({uploadStatus: 'failed'});
-    else
-    {
+app.post('/uploadImg', upload.single('img'), (req, res) => {
+    if (!req.file)
+        res.send({ uploadStatus: 'failed' });
+    else {
         let file = req.file;
         console.log(req.file);
-        cloudinary.uploader.upload(file.path, (err, result)=>{
-            res.send({uploadStatus: 'successful', result});
+        cloudinary.uploader.upload(file.path, (err, result) => {
+            res.send({ uploadStatus: 'successful', result });
         });
     }
 });
-app.post('/resources', async(req, res)=>{
+app.post('/resources', async (req, res) => {
     const obj = req.body;
-    try{
+    try {
         pool.query(`INSERT INTO resources(resource_id, resource_name, resource_url) VALUES('${obj.resource_id}', '${obj.resource_name}', '${obj.resource_link}')`);
         res.sendStatus(200);
     }
-    catch(err){
+    catch (err) {
         console.log(err);
     }
 });
-app.get('/resources', async (req, res)=>{
-    try{
+app.get('/resources', async (req, res) => {
+    try {
         const resources = await pool.query('SELECT * from resources');
         res.send(resources.rows);
     }
-    catch(err){
+    catch (err) {
         res.sendStatus(500);
         console.log(err);
-    } 
+    }
 });
-app.post('/deleteresource', async(req, res)=>{
-    try{
+app.post('/deleteresource', async (req, res) => {
+    try {
         console.log(req.body);
         await pool.query(`DELETE from resources where resource_id = '${req.body.resource_id}'`).then(res.send({
-            success:true,
+            success: true,
             message: 'Resource deleted successfully'
         }));
     }
-    catch(err){
+    catch (err) {
         console.log(err);
         res.sendStatus(500);
     }
 });
-app.post('/updateresource', async(req,res)=>{
+app.post('/updateresource', async (req, res) => {
     try {
         console.log(req.body);
         await pool.query(`UPDATE resources 

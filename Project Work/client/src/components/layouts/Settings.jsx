@@ -1,10 +1,11 @@
-import { Avatar, Input, OutlinedInput, TextField, InputLabel } from '@material-ui/core'
+import { Avatar, InputLabel, OutlinedInput, TextField } from '@material-ui/core'
 import { Button } from 'react-bootstrap';
 import React, { useState } from 'react'
 import { userStore } from '../storage/store';
 import { InputAdornment, IconButton, FormControl, FormHelperText } from '@material-ui/core';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import '../../styles/Settings.css';
-import { Visibility, VisibilityOff, SettingsOutlined } from '@material-ui/icons';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core';
 import { USER_LOGGEDIN } from "../storage/actiontype";
 import axios from 'axios';
@@ -70,6 +71,7 @@ const Settings = () => {
             password: password
         }).then(res => {
             console.log(res.data);
+            NotificationManager.success("Changes saved successfully!", "Notification");
             if (res.data.success) {
                 userStore.dispatch({
                     type: USER_LOGGEDIN,
@@ -135,6 +137,7 @@ const Settings = () => {
     }
     return (
         <>
+            <NotificationContainer></NotificationContainer>
             <div className='top'>
                 <h2 className='page-heading'>Settings</h2>
                 <div className='save-button-wrapper'>
@@ -174,31 +177,31 @@ const Settings = () => {
                         <FormControl fullWidth>
 
                             <InputLabel htmlFor="password" style={{ marginTop: 4, marginLeft: 5, position: 'relative', top: 42, left: 20 }} variant="outlined" error={passwordError !== ""}>Password</InputLabel>
-                                <OutlinedInput
-                                    id="password"
-                                    className={classes.input}
-                                    type={showPassword ? "text" : "password"}
-                                    color='primary'
-                                    name="password"
-                                    label="Password"
-                                    error={passwordError !== ""}
-                                    aria-describedby="my-helper-text-pwd"
-                                    value={password}
-                                    onChange={handlePasswordChange}
-                                    endAdornment={
-                                        <InputAdornment>
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                edge="end"
-                                            >
-                                                {/* <VisibilityOff></VisibilityOff> */}
-                                                {showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                                <FormHelperText id="my-helper-text-user" error={passwordError !== ""} style={{ marginLeft: '20px' }}>{passwordError}</FormHelperText>
+                            <OutlinedInput
+                                id="password"
+                                className={classes.input}
+                                type={showPassword ? "text" : "password"}
+                                color='primary'
+                                name="password"
+                                label="Password"
+                                error={passwordError !== ""}
+                                aria-describedby="my-helper-text-pwd"
+                                value={password}
+                                onChange={handlePasswordChange}
+                                endAdornment={
+                                    <InputAdornment>
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            edge="end"
+                                        >
+                                            {/* <VisibilityOff></VisibilityOff> */}
+                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                            <FormHelperText id="my-helper-text-user" error={passwordError !== ""} style={{ marginLeft: '20px' }}>{passwordError}</FormHelperText>
                         </FormControl>
                     </form>
                 </div>

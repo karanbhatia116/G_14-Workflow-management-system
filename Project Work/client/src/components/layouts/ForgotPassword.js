@@ -134,7 +134,6 @@ function ForgotPassword() {
                     setUsername("");
                     setNewPwd("");
                     setConfirmPwd("");
-                    console.log("Password SucessFul");
                 }
             });
     }

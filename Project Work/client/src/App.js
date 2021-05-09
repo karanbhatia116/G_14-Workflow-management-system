@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import socket from "./components/utils/socket";
 import { userStore } from "./components/storage/store";
 import { HAS_READ, SENT_MSG } from "./components/storage/actiontype";
+import Authentication from './components/pages/Authentication';
 
 //This is to hide navabar on invalid paths
 function ToggleNavbar(props) {
@@ -84,7 +85,7 @@ function App() {
 							{/* If user is not logged in every path will redirect to / */}
 							{!status && <Redirect to='/' />}
 							{/* LogIn page */}
-							{!status && <Home />}
+							{!status && <Authentication />}
 							{/* If User is logged In, User will go to appropriate links */}
 							{status && navlink.target}
 						</Route>
@@ -95,7 +96,7 @@ function App() {
 					{/* If user is not logged in every path will redirect to / */}
 					{!status && <Redirect to='/' />}
 					{/* LogIn page */}
-					{!status && <Home />}
+					{!status && <Authentication />}
 
 					{/* If someone tries to access pages outside of the links will redirect to Not Found Page */}
 					{status && <Redirect to='/NotFound' />}
