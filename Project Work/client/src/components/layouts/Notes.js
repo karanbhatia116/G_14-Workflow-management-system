@@ -18,7 +18,7 @@ function Notes() {
             username: userStore.getState().loggedInUser.username
         };
         fetch(
-            'http://localhost:4000/addnote', {
+            '/addnote', {
                 method: 'POST',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -38,7 +38,7 @@ function Notes() {
 
     const onDeleteNote = (idToDelete) => {
         fetch(
-            'http://localhost:4000/deletenote', {
+            '/deletenote', {
             method: 'DELETE',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -63,7 +63,7 @@ function Notes() {
             lastmodified: `${d.getUTCFullYear()}-${(d.getUTCMonth() + 1)}-${d.getUTCDate()}`
         }
         fetch(
-            'http://localhost:4000/updatenote', {
+            '/updatenote', {
             method: 'PUT',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -87,7 +87,7 @@ function Notes() {
 
     useEffect(() => {
         fetch(
-            'http://localhost:4000/getnote', {
+            '/getnote', {
             method: 'GET',
             headers: {
                 'Access-Control-Allow-Origin': '*',

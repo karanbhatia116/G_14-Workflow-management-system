@@ -7,7 +7,11 @@ let initialuserStore = {
     loggedInUser: {
         usertype: null,
         username: null,
-        password: null
+        password: null,
+        full_name: null,
+        email: null,
+        title: null,
+        bio: null
     },
     navlinks : [
         ...links.engineer
@@ -31,7 +35,11 @@ if (user) {
             ...initialuserStore.loggedInUser,
             usertype: user.usertype,
             username: user.username,
-            password: user.password
+            password: user.password,
+            full_name: user.full_name,
+            email: user.email,
+            title: user.title,
+            bio: user.bio
         }
     };
     //Assign the links based on the type of user

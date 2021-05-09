@@ -1,0 +1,170 @@
+.save-button-wrapper{
+    margin-top: 2em;
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+}
+.save-button{
+    margin-right: 2em;
+}
+.top{
+    display: flex;
+}
+.page-heading{
+    flex:1;
+    margin-top: 1em;
+    margin-left: 1em;
+
+}
+.container{
+    display: flex;
+    border: 1px solid lightgray;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 2rem;
+    height: 70vh;
+    background-color: white;
+}
+
+.profile-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.profile-sidebar{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    border-right: 1px solid lightgray;
+}
+.profile-form{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.form{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+.input{
+    margin-top: 1.2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.avatar{
+    margin-top: 2rem;
+    height: 4.5rem;
+    width: 4.5rem;
+}
+.userName{
+    margin-top: 2rem;
+    font-size: small;
+    color:grey;
+}
+.email{
+    margin-top: 1.6rem;
+    font-size: small;
+}
+.title{
+    margin-top: 1.2rem;
+    font-size: larger;
+}
+.bio{
+    margin-top: 1.5rem;
+    max-width: 279px;
+    font-size: medium;
+}
+@media screen and (max-width:768px){
+    .container{
+        display: flex;
+        border: 1px solid lightgray;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        margin-top: 3%;
+        height: 82vh;
+        background-color: white;
+    }
+    .profile-sidebar{
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+        border-right: 1px solid lightgray;
+    }
+    .input{
+        margin-top: 1rem;
+        margin-left: 0.3rem;
+        margin-right: 0.3rem;
+    }
+    .userName{
+        margin-top: 2rem;
+        margin-right: 1rem;
+        font-size: small;
+        color:grey;
+    }
+    .email{
+        margin-top: 1.6rem;
+        margin-right: 1rem;
+        font-size: small;
+    }
+    .title{
+        margin-top: 1.2rem;
+        font-size: large;
+    }
+    .bio{
+        margin-top: 1.5rem;
+        max-width: 279px;
+        font-size: small;
+    }
+}
+@media screen and (max-width:568px){
+    .save-button{
+        margin-right: 1em;
+    }
+    .page-heading{
+        flex:1;
+        margin-top: 1em;
+        margin-left: 0.5em;
+    }
+    .container{
+        display: flex;
+        border: 1px solid lightgray;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        margin-top: 3%;
+        height: 82vh;
+        background-color: white;
+    }
+    .profile-sidebar{
+        display: flex;
+        flex-direction: column;
+        width: 44%;
+        border-right: 1px solid lightgray;
+    }
+    .input{
+        margin-top: 1rem;
+        margin-left: 0.3rem;
+        margin-right: 0.3rem;
+    }
+    .userName{
+        margin-top: 2rem;
+        margin-right: 1rem;
+        font-size: small;
+        color:grey;
+    }
+    .email{
+        margin-top: 1.6rem;
+        margin-right: 1rem;
+        font-size: small;
+    }
+    .title{
+        margin-top: 1.2rem;
+        font-size: large;
+    }
+    .bio{
+        margin-top: 1.5rem;
+        max-width: 279px;
+        font-size: small;
+    }
+}

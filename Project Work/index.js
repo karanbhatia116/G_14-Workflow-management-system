@@ -297,6 +297,27 @@ app.put('/updatenote', (req, res) => {
         });
 });
 
+app.post('/changeusersettings', (req,res)=>{
+    try{
+        pool.query(`UPDATE users 
+        SET full_name = '${req.body.full_name}', 
+        email = '${req.body.email}', 
+        title = '${req.body.title}',
+        bio = '${req.body.bio}'
+        where username = '${req.body.username}'
+        `).then(()=>{
+            res.send({
+                success: true,
+            });
+        });
+    }
+    catch(err){
+        console.log(err);
+        res.send({
+            success:false
+        }).sendStatus(500);
+    }
+});
 app.post('/addtask', async (req, res)=>{
     console.log(req.body);
     await List.findById(req.body.column_id, (err, docs)=>{
