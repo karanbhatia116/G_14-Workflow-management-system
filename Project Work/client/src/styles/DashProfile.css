@@ -1,0 +1,11 @@
+.row{
+    align-content: center;
+    text-align: right;
+    /* margin-right: 2pt; */
+    /* margin-left: 30pt; */
+    text-align-last: right;
+    align-self: center;
+}
+div {
+    text-justify: auto;
+}

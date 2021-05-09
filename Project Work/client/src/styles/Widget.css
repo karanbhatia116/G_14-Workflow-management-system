@@ -1,0 +1,21 @@
+.widget {
+    display: flex;
+    /* align-items: center; */
+    /* background-color: white; */
+    border-radius: 0.4rem;
+    /* align-items: center; */
+    /* height: 150px; */
+    justify-content: center;
+    align-items: center;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(16, 1, 73, 0.35);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(16, 1, 73, 0.35);
+    box-shadow: 0px 0px 5px 0px rgba(16, 1, 73, 0.35);
+    transition: 0.5s; 
+    /* padding-left: 0cm;
+    padding-right: 1cm; */
+  }
+  
+  .widget:hover {
+    transform: scale(1.01);
+  }
+  
