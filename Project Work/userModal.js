@@ -13,6 +13,17 @@ const findUser = (body) => {
     });
 };
 
+const getManager = () => {
+    return new Promise(function (resolve, reject) {
+        pool.query(`SELECT username from users WHERE usertype = 1;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            resolve(results.rows);
+        });
+    });
+};
+
 const getUsers = (body) => {
     return new Promise(function (resolve, reject) {
         const { user, pwd } = body;
@@ -153,15 +164,47 @@ const findProjects = () => {
     });
 };
 
-const addProject = (body) => {
-    const { projectname, deadline, manager, team, description, image } = body;
+const findProject = (body) => {
     return new Promise(function (resolve, reject) {
-        pool.query(`INSERT INTO projects VALUES ('${projectname}','${deadline}','${manager}',${team},'${description}',${image}) RETURNING projectname, deadline, manager, team, description, image;`, (error, results) => {
+        pool.query(`SELECT * FROM projects WHERE id='${body.tempId}';`, (error, results) => {
             if (error) {
                 reject(error);
             }
             if (results !== undefined) {
-                resolve(results.rows);
+                resolve(results.rows[0]);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const addProject = (body) => {
+    const { id, projectname, deadline, manager, team, description, image } = body;
+    return new Promise(function (resolve, reject) {
+        pool.query(`INSERT INTO projects( img, project_title, team_assigned, project_manager, project_description, projectdeadline) VALUES ('${image}','${projectname}',${team},'${manager}','${description}','${deadline}') RETURNING id, img, project_title, team_assigned, project_manager, project_description, projectdeadline;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows[0]);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};
+
+const updateProject = (body) => {
+    const { id, projectname, deadline, manager, team, description, image } = body;
+
+    return new Promise(function (resolve, reject) {
+        pool.query(`UPDATE projects SET img = '${image}', project_title = '${projectname}', team_assigned = ${team}, project_manager = '${manager}', project_description = '${description}', projectdeadline = '${deadline}' WHERE id='${id}' RETURNING id, img, project_title, team_assigned, project_manager, project_description, projectdeadline;`, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            if (results !== undefined) {
+                resolve(results.rows[0]);
             } else {
                 resolve(undefined);
             }
@@ -170,14 +213,13 @@ const addProject = (body) => {
 };
 
 const deleteProject = (body) => {
-    const { projectname, deadline, manager, team, description, image } = body;
     return new Promise(function (resolve, reject) {
-        pool.query(`INSERT INTO projects VALUES ('${projectname}','${deadline}','${manager}',${team},'${description}',${image}) RETURNING projectname, deadline, manager, team, description, image;`, (error, results) => {
+        pool.query(`DELETE FROM projects WHERE id='${body.id}' RETURNING id;`, (error, results) => {
             if (error) {
                 reject(error);
             }
             if (results !== undefined) {
-                resolve(results.rows);
+                resolve(results.rows[0]);
             } else {
                 resolve(undefined);
             }
@@ -256,13 +298,17 @@ const updateNote = (body) => {
 
 module.exports = {
     getUsers,
+    getManager,
     addUsers,
     changepwd,
     findUser,
     upgradeUser,
     downgradeUser,
     findProjects,
+    findProject,
     addProject,
+    updateProject,
+    deleteProject,
     getNote,
     addNote,
     deleteNote,

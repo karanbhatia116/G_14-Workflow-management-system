@@ -24,7 +24,7 @@ const Projects = () => {
     const [projects, setProjects] = useState([]);
 
     function fetchProjects() {
-        fetch('http://localhost:4000/findprojects', {
+        fetch('/findprojects', {
             method: 'GET',
             headers: {
                 'Access-Control-Allow-Origin': '*',

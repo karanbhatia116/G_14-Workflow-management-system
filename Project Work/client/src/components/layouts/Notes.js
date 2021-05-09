@@ -99,7 +99,7 @@ function Notes() {
             })
             .then(data => {
                 if (data !== undefined) {
-                    setNotes([...data, ...notes]);
+                    setNotes(data);
                 }
             });
         

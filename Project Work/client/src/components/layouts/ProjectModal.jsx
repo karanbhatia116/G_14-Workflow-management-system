@@ -1,26 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Dialog, DialogContent, DialogTitle, IconButton, InputBase, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageUploadModal from './ImageUploadModal';
-import { DELETE_PROJECT } from '../storage/actiontype';
-import { userStore } from '../storage/store';
-import { CollectionsOutlined } from '@material-ui/icons';
-
-const managers = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-    { title: 'The Good, the Bad and the Ugly', year: 1966 },
-    { title: 'Fight Club', year: 1999 }
-];
 
 
 const useStyles = makeStyles((theme) => ({
@@ -84,15 +68,46 @@ const useStyles = makeStyles((theme) => ({
         width: 200
     }
 }));
-const ProjectModal = ({ isOpen, setOpen, title, setTitle, description, setDescription, image, setImage, team, setTeam, projects, setProjects }) => {
+
+const ProjectModal = ({ id, isOpen, setOpen, title, setTitle, description, setDescription, image, setImage, team, setTeam, deadline, setDeadline, manager, setManager, projects, setProjects }) => {
     const classes = useStyles();
+    const [tempId, setTempId] = useState(id);
     const [tempTitle, setTempTitle] = useState(title);
     const [tempDescription, setTempDescription] = useState(description);
-    const [manager, setManager] = useState('');
-    const [managerInput, setManagerInput] = useState('');
-    const [selectedDate, setSelectedDate] = useState('2021-01-01');
+    const [tempManager, setTempManager] = useState(manager);
+    const [managerInput, setManagerInput] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(deadline);
     const [errorTeam, setErrorTeam] = useState(false);
     const [openUpload, setOpenUpload] = useState(false);
+
+    useEffect(() => {
+        fetch(
+            '/getmanager',
+            {
+                method: 'GET',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => {
+                    //check the response
+                    if (response.status === 500) {
+                        return undefined;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data === undefined) {
+                        //if the the search is wrong then throw warning
+                        setManagerInput([]);
+                    } else {
+                        setManagerInput(data.map(d => { return d.username }));
+                    }
+                });
+        return () => { return true; };
+    }, []);
+
     const handleOnChange = (e) => {
         setTempTitle(e.target.value);
     }
@@ -119,22 +134,13 @@ const ProjectModal = ({ isOpen, setOpen, title, setTitle, description, setDescri
         else {
             setOpen(false);
         }
-
-        let data = {
-            projectname: tempTitle,
-            deadline: selectedDate,
-            manager: manager.title,
-            team: parseInt(team, 10),
-            description: tempDescription,
-            image: null
-        };
-        fetch('http://localhost:4000/addproject', {
+        fetch('/findproject', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({ tempId })
         })
             .then(response => {
                 //check the response
@@ -143,41 +149,89 @@ const ProjectModal = ({ isOpen, setOpen, title, setTitle, description, setDescri
                 }
                 return response.json();
             })
-            .then(data => {
-                if (data !== undefined) {
-                    setProjects([...projects.slice(0, projects.length - 1), ...data]);
+            .then(output => {
+
+                let data = {
+                    id: tempId,
+                    projectname: tempTitle,
+                    deadline: selectedDate,
+                    manager: tempManager,
+                    team: parseInt(team, 10),
+                    description: tempDescription,
+                    image: image
+                };
+
+                if (output !== undefined) {
+                    fetch('/updateproject', {   
+                        method: 'PUT',
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    })
+                        .then(response => {
+                            //check the response
+                            if (response.status === 500) {
+                                return undefined;
+                            }
+                            return response.json();
+                        })
+                        .then(out => {
+                            if (out !== undefined) {
+                                setProjects(
+                                    projects.map((project) => {
+                                        if (project.id === out.id) {
+                                            return out;
+                                        } else {
+                                            return project;
+                                        }
+                                    })
+                                );
+                                console.log("Successful");
+                            }
+                        }).catch(error => {
+                            console.log(error);
+                        });
+                } else {
+                    fetch('/addproject', {
+                        method: 'POST',
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    })
+                        .then(response => {
+                            //check the response
+                            if (response.status === 500) {
+                                return undefined;
+                            }
+                            return response.json();
+                        })
+                        .then(out => {
+                            if (out !== undefined) {
+                                setTempId(out.id);
+                            }
+                        }).catch(error => {
+                            console.log(error);
+                        });
                 }
             }).catch(error => {
                 console.log(error);
             });
     }
 
-    const handleDelete = () => {
-        setTitle(tempTitle);
-        setDescription(tempDescription);
-        if (errorTeam || !team) {
-            setErrorTeam(true);
-        }
-        else {
-            setOpen(false);
-        }
-
-        let data = {
-            projectname: tempTitle,
-            deadline: selectedDate,
-            manager: manager.title,
-            team: parseInt(team, 10),
-            description: tempDescription,
-            image: null
-        };
+    const handleDelete = (e) => {
+        const body = { id };
         fetch(
-            'http://localhost:4000/deleteproject', {
+            '/deleteproject', {
             method: 'DELETE',
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(body)
         })
             .then(response => {
                 //check the response
@@ -188,7 +242,8 @@ const ProjectModal = ({ isOpen, setOpen, title, setTitle, description, setDescri
             })
             .then(data => {
                 if (data !== undefined) {
-                    setProjects([...projects.slice(0, projects.length - 1), ...data]);
+                    setProjects(projects.filter(project => project.id !== data.id));
+                    setOpen(false);
                 }
             }).catch(error => {
                 console.log(error);
@@ -230,18 +285,19 @@ const ProjectModal = ({ isOpen, setOpen, title, setTitle, description, setDescri
                     <div className={classes.project__manager}>
                         <Autocomplete
                             onChange={(e, newValue) => {
-                                setManager(newValue);
+                                setTempManager(newValue);
                             }}
-                            inputValue={managerInput}
+                            inputValue={tempManager}
+                            value={tempManager}
                             onInputChange={(e, newInputValue) => {
-                                setManagerInput(newInputValue);
+                                setTempManager(newInputValue);
                             }}
-                            options={managers}
-                            getOptionLabel={(option) => option.title}
+                            options={managerInput}
+                            getOptionLabel={(option) => option}
                             style={{ width: 300 }}
                             renderInput={(params) =>
                                 <TextField {...params}
-                                    label="Manager"
+                                    label="tempmanager"
                                     variant="outlined"
                                     style={{ maxWidth: '70%' }}
                                 />}
@@ -261,6 +317,7 @@ const ProjectModal = ({ isOpen, setOpen, title, setTitle, description, setDescri
                             <TextField
                                 label="Project Deadline"
                                 type="date"
+                                value={selectedDate}
                                 defaultValue={selectedDate}
                                 className={classes.calendar}
                                 InputLabelProps={{

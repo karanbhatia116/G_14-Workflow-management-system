@@ -119,6 +119,16 @@ app.post('/finduser', (req, res) => {
         });
 });
 
+app.get('/getmanager', (req, res) => {
+    user_modal.getManager()
+        .then(response => {
+            res.status(200).send(response);
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
 app.post('/adduser', (req, res) => {
     user_modal.addUsers(req.body)
         .then(response => {
@@ -175,8 +185,36 @@ app.get('/findprojects', (req, res) => {
         });
 });
 
+app.post('/findproject', (req, res) => {
+    user_modal.findProject(req.body)
+        .then(response => {
+            if (response === undefined) {
+                res.status(500).send(undefined);
+            } else {
+                res.status(200).send(response);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
 app.post('/addproject', (req, res) => {
     user_modal.addProject(req.body)
+        .then(response => {
+            if (response === undefined) {
+                res.status(500).send(undefined);
+            } else {
+                res.status(200).send(response);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+});
+
+app.put('/updateproject', (req, res) => {
+    user_modal.updateProject(req.body)
         .then(response => {
             if (response === undefined) {
                 res.status(500).send(undefined);

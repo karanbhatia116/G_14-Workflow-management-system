@@ -1,3 +1,5 @@
+import ReactMarkdown from "react-markdown";
+
 function Mainbar({ notes, activeNote, onUpdateNote }) {
 
     let updatedNote = notes.find((note) => note.noteid === activeNote);
@@ -33,6 +35,14 @@ function Mainbar({ notes, activeNote, onUpdateNote }) {
                 onClick={() => onUpdateNote(updatedNote)}>
                 Update
             </button>
+            <div className="app-main-note-preview">
+                <h1 className="preview-title" style={{color:"black"}}>
+                    {notes.find((note) => note.noteid === activeNote).notetitle}
+                </h1>
+                <ReactMarkdown className="markdown-preview">
+                    {notes.find((note) => note.noteid === activeNote).notetext}
+                </ReactMarkdown>
+            </div>
         </div>
     )
 }
