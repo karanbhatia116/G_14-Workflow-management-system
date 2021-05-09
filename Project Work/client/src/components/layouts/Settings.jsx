@@ -3,8 +3,9 @@ import {Button} from 'react-bootstrap';
 import React, {useState} from 'react'
 import {userStore}  from '../storage/store';
 import {InputAdornment, IconButton, FormControl, FormHelperText} from '@material-ui/core';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 import '../../styles/Settings.css';
-import { Visibility, VisibilityOff, SettingsOutlined} from '@material-ui/icons';
+import { Visibility, VisibilityOff} from '@material-ui/icons';
 import {makeStyles} from '@material-ui/core';
 import { USER_LOGGEDIN } from "../storage/actiontype";
 import axios from 'axios';
@@ -76,6 +77,7 @@ const Settings = () => {
             password: password
         }).then(res=>{
             console.log(res.data);
+            NotificationManager.success("Changes saved successfully!", "Notification");
             if(res.data.success)
             {
                 userStore.dispatch({
@@ -147,6 +149,7 @@ const Settings = () => {
     }
     return (
         <>
+        <NotificationContainer></NotificationContainer>
         <div className = 'top'>
             <h2 className='page-heading'>Settings</h2>
             <div className='save-button-wrapper'>
@@ -156,7 +159,7 @@ const Settings = () => {
         <div className='container'>
             <div className='profile-sidebar'>
                 <div className='profile-header'>
-                <Avatar className = 'avatar' src={`https://avatars.dicebear.com/api/human/${userName}.svg`}></Avatar>
+                <Avatar className = 'avatar' src={`https://avatars.dicebear.com/api/human/${userName}.svg`} style={{height: '8.5rem', width:'8.5rem'}}></Avatar>
                 <p className='userName'>@{userName}</p>
                 {email !== ''? <p className='email'>{email}</p> : null}
                 {title !== ''? <p className='title'>{title}</p> : null}
