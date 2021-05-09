@@ -1,11 +1,11 @@
 .progress-div {
   display: flex;
-  background-color: rgb(56, 139, 248);
+  background-color: rgb(80, 238, 240);
   border-radius: 10px;  
 }
 
 .progress {
-  background: rgb(80, 238, 114);
+  background: rgb(238, 80, 114);
   height: 100px;
   transition: 1s ease;
   transition-delay: 0.5s;

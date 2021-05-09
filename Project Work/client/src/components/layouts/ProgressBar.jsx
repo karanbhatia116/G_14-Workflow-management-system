@@ -5,7 +5,6 @@ import "../../styles/ProgressBar.css";
 export var ProgressBar = (props) => {
   const width = props.width;
   const percent = props.percent;
-  // const status = props.status;
 
   const [value, setValue] = React.useState(0);
 
@@ -16,8 +15,8 @@ export var ProgressBar = (props) => {
   return (
     <div className={"progressComp"}>
       {/* <h1 className="percent-number">{status}</h1> */}
-      <div className="progress-div" style={{ width: width }}>
-        <div style={{ width: `${value}px` }} className="progress" />
+      <div className="progress-div" style={{ width: width, marginTop: '5%'}}>
+      <div style={{ width: `${value}px` }} className="progress" />
       </div>
     </div>
   );

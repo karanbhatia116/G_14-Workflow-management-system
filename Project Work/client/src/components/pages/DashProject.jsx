@@ -1,54 +1,41 @@
-import { v4 as uuid } from 'uuid';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 
-export var DashProject = ({ number, width, height }) => {
-    const projectList = [
-        {
-            id: uuid(),
-            img: "https://blog.hubspot.com/hubfs/image8-2.jpg",
-            project_title: 'Google',
-            team_assigned: 10,
-            project_manager: '',
-            project_description: 'This is a new description',
-            projectDeadline: new Date()
-        },
-        {
-            id: uuid(),
-            img: "http://media.corporate-ir.net/media_files/IROL/17/176060/Oct18/Amazon%20logo.PNG",
-            project_title: 'Amazon',
-            team_assigned: 10,
-            project_manager: '',
-            project_description: 'How are you all?',
-            projectDeadline: new Date()
-        },
-        {
-            id: uuid(),
-            img: "https://logos-world.net/wp-content/uploads/2020/04/Facebook-Logo.png",
-            project_title: 'Facebook',
-            team_assigned: 10,
-            project_manager: '',
-            project_description: 'I have successfully rendered projects!!',
-            projectDeadline: new Date()
-        },
-        {
-            id: uuid(),
-            img: "https://assets.brand.microsites.netflix.io/assets/493f5bba-81a4-11e9-bf79-066b49664af6_cm_1440w.png?v=26",
-            project_title: 'Netflix',
-            team_assigned: 12,
-            project_manager: '',
-            project_description: 'I am gonna watch new movies with Netflix. Building a new version of Netflix with my team. How cool is that. Why am I writing this gibber??',
-            projectDeadline: new Date()
-        },
-    ]
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 230,
+    // marginLeft: 20
+  },
+  media: {
+    height: 80,
+  },
+});
 
-    return (
-        <div>
-            <img src={projectList[number].img} width={width} height={height} />
-            <h4>{projectList[number].project_title}</h4>
-            <p>
-                {/* <i>{projectList[number].project_description}</i> <br /> */}
-                <b>Team assigned - {projectList[number].team_assigned}</b>
-            </p>
+export default function MediaCard(props) {
+  const classes = useStyles();
 
-        </div >
-    )
+  return (
+    <Card className={classes.root}>
+      <CardActionArea>
+        <CardMedia
+          className={classes.media}
+          image={props.project.img}
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+           {props.project.project_title}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Team assigned: {props.project.team_assigned}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
 }
