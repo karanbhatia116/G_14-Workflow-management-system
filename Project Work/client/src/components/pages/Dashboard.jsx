@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState} from 'react'
 import { Container, Grid, makeStyles, Typography, Avatar } from '@material-ui/core';
 import { ProgressBar } from '../layouts/ProgressBar';
 import DashProject from './DashProject';
@@ -110,7 +110,7 @@ const useStyles = makeStyles({
     },
     userName: {
         marginTop: '2rem',
-        marginLeft: '4.3rem',
+        marginLeft: '1.3rem',
         fontSize: 'small',
         color: 'gray',
     },
@@ -132,13 +132,13 @@ const useStyles = makeStyles({
     }
 });
 
-let projects = []; // get this array from backend!
 const Dashboard = () => {
     const classes = useStyles();
     const userName = userStore.getState().loggedInUser.username;
     const userEmail = userStore.getState().loggedInUser.email;
     const userTitle = userStore.getState().loggedInUser.title;
     const userBio = userStore.getState().loggedInUser.bio;
+    const [projects, setProjects] = useState([]);
     const project = {
         id: uuid(),
         img: "https://blog.hubspot.com/hubfs/image8-2.jpg",
@@ -148,6 +148,10 @@ const Dashboard = () => {
         project_description: 'This is a new description',
         projectDeadline: new Date()
     }
+
+    useEffect(()=>{
+        console.log(projects);
+    }, [projects]);
 
     useEffect(() => {
         fetch('/findprojects', {
@@ -167,7 +171,8 @@ const Dashboard = () => {
             .then(data => {
                 if (data !== undefined) {
                     console.log(data);
-                    projects = [...data.slice(0, 3)];
+                    setProjects([...data.slice(0, 3)]);
+                    // projects = [...data.slice(0, 3)];
                 }
             });
         return () => {
@@ -193,12 +198,15 @@ const Dashboard = () => {
                     <div className={classes.projects_wrapper}>
                         <Typography style={{ fontSize: 24, marginBottom: 5 }}><b>Current Projects</b></Typography>
                         <div className={classes.projects}>
+                            {console.log(projects)}
                             {/* Map through all project from the backend here and pass as project object*/}
                             {
                                 projects.map((project, index) => {
+                                    return(
                                     <Link to='/Projects' key={index}>
                                         <DashProject project={project}></DashProject>
                                     </Link>
+                                    )
                                 })
                             }
                         </div>
@@ -222,7 +230,7 @@ const Dashboard = () => {
             </Grid>
             {window.innerWidth > 768 ? <div className={classes.profile_sidebar}>
                 <div className={classes.profile_header}>
-                    <Avatar src={`https://avatars.dicebear.com/api/human/${userName}.svg`} style={{ height: '8.5rem', width: '8.5rem', marginLeft: '3rem', marginTop: '2rem' }}></Avatar>
+                    <Avatar src={`https://avatars.dicebear.com/api/human/${userName}.svg`} style={{ height: '8.5rem', width: '8.5rem', marginTop: '2rem' }}></Avatar>
                     <p className={classes.userName}>@{userName}</p>
                     {userEmail !== '' ? <p className={classes.email}>{userEmail}</p> : null}
                     {userTitle !== '' ? <p className={classes.title}>{userTitle}</p> : null}

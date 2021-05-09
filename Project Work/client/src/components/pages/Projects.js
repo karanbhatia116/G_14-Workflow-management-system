@@ -43,6 +43,7 @@ const Projects = () => {
                     //if the the search is wrong then throw warning
                     setProjects([]);
                 } else {
+                    console.log(data);
                     setProjects(data);
                 }
             });
