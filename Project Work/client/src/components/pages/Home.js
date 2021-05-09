@@ -1,12 +1,14 @@
-import { Jumbotron } from "react-bootstrap";
+// import { Jumbotron } from "react-bootstrap";
+import Dashboard from '../pages/Dashboard';
 const Home = () => {
     return (
         <>
-            <Jumbotron>
+            {/* <Jumbotron>
                 <h1>
                     Home-Page
                 </h1>
-            </Jumbotron>
+            </Jumbotron> */}
+            <Dashboard></Dashboard>
 
         </>
     );

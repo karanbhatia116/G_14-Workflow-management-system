@@ -38,6 +38,7 @@
   
   .todo-form {
     margin-bottom: 32px;
+    margin-top: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,10 +49,13 @@
   .todo-input {
     padding: 14px 32px 14px 16px;
     border-radius: 4px 0 0 4px;
-    border: 2px solid #5d0cff;
+    border:1px solid lightgray;
     outline: none;
     width: 320px;
     background: transparent;
+    margin-left: 2em;
+    margin-top: 5%;
+    margin-bottom: 3rem;
     color:black;
   }
   
@@ -62,29 +66,26 @@
   
   .todo-button {
     padding: 16px;
+    margin-top: 5%;
+    margin-bottom: 3rem;
     border: none;
     border-radius: 0 4px 4px 0;
     cursor: pointer;
     outline: none;
-    background: linear-gradient(
-      90deg,
-      rgba(93, 12, 255, 1) 0%,
-      rgba(155, 0, 250, 1) 100%
-    );
+    background-color: rgba(20, 159, 255, 1);
     color: #fff;
     text-transform: capitalize;
   }
-  
+  .todo-button:hover{
+    color: #fff;
+    background-color: #0683dd;
+  }
   .todo-input.edit {
-    border: 2px solid #149fff;
+    border: 1px solid lightgray;
   }
   
   .todo-button.edit {
-    background: linear-gradient(
-      90deg,
-      rgba(20, 159, 255, 1) 0%,
-      rgba(17, 122, 255, 1) 100%
-    );
+    background-color: rgba(20, 159, 255, 1);
     padding: 16px 22px;
   }
   
@@ -101,12 +102,8 @@
     align-items: center;
     margin: 4px auto;
     color:black;
-    background: linear-gradient(
-      90deg,
-      rgb(201, 241, 247) 0%,
-      rgb(209, 238, 238) 100%
-    );
-    
+    background-color: #e0fbff;
+    margin-bottom: 1rem;
     overflow: auto;
     padding: 16px;
     border-radius: 5px solid blue;
@@ -132,4 +129,19 @@
   .hi{
     width:100%;
     overflow: auto;
+  }
+  @media screen and (max-width: 768px){
+    .todo-input {
+      padding: 14px 32px 14px 16px;
+      border-radius: 4px 0 0 4px;
+      border:1px solid lightgray;
+      outline: none;
+      width: 320px;
+      background: transparent;
+      margin-left: 0.2rem;
+      margin-top: 5%;
+      margin-bottom: 3rem;
+      color:black;
+    }
+    
   }

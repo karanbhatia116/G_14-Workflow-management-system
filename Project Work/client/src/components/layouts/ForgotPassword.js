@@ -113,7 +113,7 @@ function ForgotPassword() {
             return;
         }
         //code for changing password
-        fetch('http://localhost:4000/changepwd', {
+        fetch('/changepwd', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -134,7 +134,6 @@ function ForgotPassword() {
                     setUsername("");
                     setNewPwd("");
                     setConfirmPwd("");
-                    console.log("Password SucessFul");
                 }
             });
     }
