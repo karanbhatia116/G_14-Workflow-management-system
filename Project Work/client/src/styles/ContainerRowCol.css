@@ -15,8 +15,12 @@
     margin-top: 10pt; */
 }
 .sideProfile{
+    border-radius: 10px;
     margin-top: 10pt;
-    margin-bottom: 0pt;
+    margin-bottom: 20pt;
+    background-color: rgba(61, 90, 255, 0.055);
+    text-align: right;
+    align-content: flex-end;
 }
 .cards{
     margin-top: 0pt;
@@ -25,12 +29,42 @@
     margin-right: 0pt;
     text-align: center;
 }
+/* .hide {
+    display: none;
+  }
+  
+.myDIV:hover {
+    display: block;
+    color: black;
+  }
+
+.hide:hover {
+    visibility: visible;
+}*/
+
+/* .cards:hover .overlay {
+    opacity: 1; 
+} */
 /* #boxes {
     content: "";
     display: table;
     clear: both;
   } */
-  
+/*   
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #ffffff;
+  } */
+
+
 div {
     -ms-flex-align: center;
     margin-right: 5pt;

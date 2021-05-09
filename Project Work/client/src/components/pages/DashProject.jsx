@@ -1,7 +1,9 @@
+import { v4 as uuid } from 'uuid';
+
 export var DashProject = ({ number, width, height }) => {
     const projectList = [
         {
-            id: 0,
+            id: uuid(),
             img: "https://blog.hubspot.com/hubfs/image8-2.jpg",
             project_title: 'Google',
             team_assigned: 10,
@@ -10,7 +12,7 @@ export var DashProject = ({ number, width, height }) => {
             projectDeadline: new Date()
         },
         {
-            id: 1,
+            id: uuid(),
             img: "http://media.corporate-ir.net/media_files/IROL/17/176060/Oct18/Amazon%20logo.PNG",
             project_title: 'Amazon',
             team_assigned: 10,
@@ -19,7 +21,7 @@ export var DashProject = ({ number, width, height }) => {
             projectDeadline: new Date()
         },
         {
-            id: 2,
+            id: uuid(),
             img: "https://logos-world.net/wp-content/uploads/2020/04/Facebook-Logo.png",
             project_title: 'Facebook',
             team_assigned: 10,
@@ -28,7 +30,7 @@ export var DashProject = ({ number, width, height }) => {
             projectDeadline: new Date()
         },
         {
-            id: 3,
+            id: uuid(),
             img: "https://assets.brand.microsites.netflix.io/assets/493f5bba-81a4-11e9-bf79-066b49664af6_cm_1440w.png?v=26",
             project_title: 'Netflix',
             team_assigned: 12,
@@ -39,14 +41,14 @@ export var DashProject = ({ number, width, height }) => {
     ]
 
     return (
-        console.log(projectList[number]),
         <div>
-            <h4>{projectList[number].project_title}</h4>
             <img src={projectList[number].img} width={width} height={height} />
+            <h4>{projectList[number].project_title}</h4>
             <p>
                 {/* <i>{projectList[number].project_description}</i> <br /> */}
                 <b>Team assigned - {projectList[number].team_assigned}</b>
             </p>
-        </div>
+
+        </div >
     )
 }

@@ -3,6 +3,8 @@ import { ProgressBar } from '../layouts/ProgressBar';
 import { PieChart } from '../layouts/PieChart';
 import { DashProject } from '../pages/DashProject';
 import { DashTasks } from '../pages/DashTasks';
+import { DashProfile } from '../layouts/DashProfile';
+import { Lists } from '../pages/Lists';
 
 import "../../styles/ContainerRowCol.css"
 
@@ -77,8 +79,8 @@ export const ContainerRowCol = (props) => {
                 {col[2] === 2 &&
                     <div>
                         <Widget width={320} height={620}>
-                            hellooo
-                    </Widget>
+                            <DashProfile />
+                        </Widget>
                     </div>
                 }
             </div>

@@ -29,14 +29,14 @@ export var PieChart = (values) => {
             {
                 data: data_values, //[65, 59, 80],
                 backgroundColor: [
-                    '#9CC3D5FF',
-                    '#B1B3B3FF',
-                    '#ADEFD1FF',
+                    '#9CD9FF',
+                    '#035EE2',
+                    '#0022AC',
                 ],
                 hoverBackgroundColor: [
-                    '#9CC3D5D0',
-                    '#B1B3B3D0',
-                    '#ADEFD1D0',
+                    '#9CD9FA',
+                    '#035EE0',
+                    '#0022AC',
                 ]
             }
         ]
