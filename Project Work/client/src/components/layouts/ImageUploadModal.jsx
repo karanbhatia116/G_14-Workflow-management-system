@@ -35,7 +35,6 @@ const ImageUploadModal = ({openUpload, setOpenUpload, setImage})=>{
                 }
                 else
                 {
-                    console.log('SuccessFul Image Change');
                     setImage(res.data.result.url);
                     //axios.post('/update img url');
                     setOpenUpload(false);

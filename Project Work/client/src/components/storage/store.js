@@ -20,7 +20,6 @@ let initialuserStore = {
         msg: "",
         sender: ""
     },
-    read: false
 };
 
 //retrieve the user from the local storage

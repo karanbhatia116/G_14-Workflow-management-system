@@ -114,15 +114,11 @@ function ResourceList() {
     }
     else
     {
-      // let obj = todos;
-      // for(var key in obj){
-      //   if(obj[key].id === todoId){
-      //     obj[key].topic = newValue.topic;
-      //     obj[key].text = newValue.text;
-      //   }
-      // }
-      console.log(todos);
-      // console.log(obj);
+      axios.post('/updateresource', {
+        resource_id: todoId,
+        resource_name: newValue.topic,
+        resource_url: newValue.text
+        }).then(res=>console.log(res.data))
       setTodos(prev => prev.map((item)=>item.id === todoId ? Object.assign({}, item, {text: newValue.text, topic: newValue.topic}): item));
     }
   };

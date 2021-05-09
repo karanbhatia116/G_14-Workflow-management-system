@@ -5,7 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageUploadModal from './ImageUploadModal';
-
+import {userStore} from '../storage/store.js';
 
 const useStyles = makeStyles((theme) => ({
     project__title: {
@@ -76,9 +76,10 @@ const ProjectModal = ({ id, isOpen, setOpen, title, setTitle, description, setDe
     const [tempDescription, setTempDescription] = useState(description);
     const [tempManager, setTempManager] = useState(manager);
     const [managerInput, setManagerInput] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(deadline);
+    const [selectedDate, setSelectedDate] = useState(deadline.slice(0, 10));
     const [errorTeam, setErrorTeam] = useState(false);
     const [openUpload, setOpenUpload] = useState(false);
+    const userType = userStore.getState().loggedInUser.usertype;
 
     useEffect(() => {
         fetch(
@@ -115,6 +116,7 @@ const ProjectModal = ({ id, isOpen, setOpen, title, setTitle, description, setDe
         setTempDescription(e.target.value);
     }
     const handleDateChange = (e) => {
+        console.log(e.target.value);
         setSelectedDate(e.target.value);
     };
     const handleTeamChange = (e) => {
@@ -188,7 +190,6 @@ const ProjectModal = ({ id, isOpen, setOpen, title, setTitle, description, setDe
                                         }
                                     })
                                 );
-                                console.log("Successful");
                             }
                         }).catch(error => {
                             console.log(error);
@@ -251,7 +252,10 @@ const ProjectModal = ({ id, isOpen, setOpen, title, setTitle, description, setDe
     }
     return (
         <>
+        {userType !== 2?
         <ImageUploadModal openUpload={openUpload} setOpenUpload={setOpenUpload} setImage={setImage}></ImageUploadModal>
+        : null
+        }
            <Dialog open={isOpen} className={classes.dialog__container} onClose={()=>setOpen(false)}>
                 <DialogTitle id='simple-dialog-title'>
                     <div className={classes.project__title}>
@@ -285,19 +289,25 @@ const ProjectModal = ({ id, isOpen, setOpen, title, setTitle, description, setDe
                     <div className={classes.project__manager}>
                         <Autocomplete
                             onChange={(e, newValue) => {
+                                if(newValue)
                                 setTempManager(newValue);
+                                else
+                                setTempManager('');
                             }}
                             inputValue={tempManager}
                             value={tempManager}
                             onInputChange={(e, newInputValue) => {
+                                if(newInputValue)
                                 setTempManager(newInputValue);
+                                else
+                                setTempManager('');
                             }}
                             options={managerInput}
                             getOptionLabel={(option) => option}
                             style={{ width: 300 }}
                             renderInput={(params) =>
                                 <TextField {...params}
-                                    label="tempmanager"
+                                    label="Manager"
                                     variant="outlined"
                                     style={{ maxWidth: '70%' }}
                                 />}
@@ -327,12 +337,15 @@ const ProjectModal = ({ id, isOpen, setOpen, title, setTitle, description, setDe
                             ></TextField>
                         </form>
                     </div>
+                    {userType !==2?
                     <Button size="small" color="primary" variant="outlined" className={classes.save__button} onClick={handleSave}>
                         Save
-                </Button>
+                    </Button>: null}
+                    
+                    {userType ===0?
                     <Button size="small" color="secondary" variant="outlined" className={classes.delete__button} onClick={handleDelete}>
                         Delete
-                </Button>
+                    </Button> : null}
                 </DialogContent>
             </Dialog>
         </>

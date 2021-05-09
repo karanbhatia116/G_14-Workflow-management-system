@@ -5,11 +5,13 @@ import {Droppable, Draggable} from 'react-beautiful-dnd';
 import Card from './Card';
 import {v4 as uuid} from 'uuid';
 import Delete from '@material-ui/icons/Delete';
+import {userStore} from '../storage/store.js';
 import axios from 'axios';
 const List = ({id, list, lists, setLists, render, setRender})=>{
     const [newTitle, setNewTitle] = useState(list.name);
     const [isOpen, setOpen] = useState(false);
     const [newInput, setNewInput] = useState('');
+    const userType = userStore.getState().loggedInUser.usertype;
     const title = useRef();
     useEffect(()=>{
         setLists({
@@ -22,17 +24,6 @@ const List = ({id, list, lists, setLists, render, setRender})=>{
         });
         return (() => { return true; });
     }, [newTitle]);
-
-    // const completeTitleChange = async()=>{
-    //         setLists({
-    //         ...lists,
-    //         [id]:{
-    //             ...list,
-    //             name: newTitle,
-    //             items: list.items
-    //         }
-    //     });
-    // }
     const handleTitleChange = async (e)=>{
         setNewTitle(e.target.value);
     }
@@ -54,15 +45,6 @@ const List = ({id, list, lists, setLists, render, setRender})=>{
             });
             setNewInput('');
             setOpen(!isOpen);
-            console.log("list._id: ", list._id);
-            // axios.post('/addtask', {
-            //     column_id: list._id,
-            //     column_name: newTitle,
-            //     new_data: {
-            //         cardContent: newInput,
-            //         id: new_task_id
-            //     }
-            // }).then(res=> console.log(res.data));
 
         }
         else if(!newInput)
@@ -77,7 +59,6 @@ const List = ({id, list, lists, setLists, render, setRender})=>{
             column_id:list._id,  
             column_name: newTitle
         });
-        console.log("List._id of deleted list: ", list["id"]);
         for(var prop in lists){
             if(lists.hasOwnProperty(prop))
             {
@@ -107,9 +88,11 @@ const List = ({id, list, lists, setLists, render, setRender})=>{
                 onChange = {handleTitleChange}
                 >
                 </Input>
-                <IconButton onClick = {handleDeleteList}>
-                    <Delete style = {{color: 'white'}}></Delete>
-                </IconButton>
+                {userType!==2?
+                    <IconButton onClick = {handleDeleteList}>
+                        <Delete style = {{color: 'white'}}></Delete>
+                    </IconButton>
+                : null}
             </Paper>
             <Droppable droppableId= {id} key = {id}>
                 {(provided, snapshot)=>(

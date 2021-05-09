@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Grid, Button, FormControl, OutlinedInput, InputLabel, FormHelperText, InputAdornment, IconButton, Card } from "@material-ui/core";
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { userStore } from "../storage/store";
-import { USER_LOGGEDIN } from "../storage/actiontype";
 
 function AddUser() {
     //user value from the form
