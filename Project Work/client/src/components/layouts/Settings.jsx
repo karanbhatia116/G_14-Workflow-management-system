@@ -70,7 +70,6 @@ const Settings = () => {
             bio: bio,
             password: password
         }).then(res => {
-            console.log(res.data);
             NotificationManager.success("Changes saved successfully!", "Notification");
             if (res.data.success) {
                 userStore.dispatch({

@@ -250,9 +250,6 @@ const addNote = (body) => {
                 reject(error);
             }
             if (results !== undefined) {
-                for (let i in results.rows) {
-                    console.log(i);
-                }
                 resolve(results.rows);
             } else {
                 resolve(undefined);
@@ -284,9 +281,6 @@ const updateNote = (body) => {
                 reject(error);
             }
             if (results !== undefined) {
-                results.rows.forEach(row => {
-                    console.log(row);
-                });
                 resolve(results.rows[0]);
             } else {
                 resolve(undefined);

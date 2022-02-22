@@ -3,7 +3,9 @@ const app = require('express')();
 const http = require('http').Server(app);
 const multer = require('multer');
 const path = require('path');
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
+const dotenv = require('dotenv');
+dotenv.config();
 const io = require('socket.io')(http, {
     cors: {
         origin: "http://localhost:3000",
@@ -41,8 +43,6 @@ const user_modal = require('./userModal');
 const upload = multer({ dest: 'uploads/' });
 
 io.on("connection", (socket) => {
-    console.log(socket.id);
-    console.log('\n');
     socket.on('joined-chat-room', function (msg) {
         io.emit("new-connection", msg);
     });
@@ -54,7 +54,6 @@ io.on("connection", (socket) => {
     });
     socket.on('disconnecting', () => {
         setTimeout(() => socket.disconnect(true), 5000);
-        console.log('user disconnected');
     })
 });
 
@@ -312,18 +311,14 @@ app.post('/changeusersettings', (req,res)=>{
         });
     }
     catch (err) {
-        console.log(err);
         res.send({
             success: false
         }).sendStatus(500);
     }
 });
 app.post('/addtask', async (req, res) => {
-    console.log(req.body);
     await List.findById(req.body.column_id, (err, docs) => {
-        console.log(docs);
         if (err) {
-            console.log(err);
             res.send({
                 success: false
             });
@@ -331,13 +326,11 @@ app.post('/addtask', async (req, res) => {
         else {
             List.findOneAndUpdate({ _id: req.body.column_id }, { items: [...docs.items, req.body.new_data] }, (err, doc) => {
                 if (err) {
-                    console.log(err);
                     res.send({
                         success: false
                     });
                 }
                 else {
-                    console.log(doc.items);
                     res.send({
                         success: true,
                         message: 'Task added successfully'
@@ -396,7 +389,6 @@ app.post('/deletelist', async (req, res) => {
 });
 app.post('/updatelists', async (req, res) => {
     const lists = req.body;
-    console.log(lists);
     // let dbLists;
     // await List.find({}, (err, docs)=>{
     //     dbLists = docs;
@@ -432,7 +424,6 @@ app.post('/uploadImg', upload.single('img'), (req, res) => {
         res.send({ uploadStatus: 'failed' });
     else {
         let file = req.file;
-        console.log(req.file);
         cloudinary.uploader.upload(file.path, (err, result) => {
             res.send({ uploadStatus: 'successful', result });
         });
@@ -460,7 +451,6 @@ app.get('/resources', async (req, res) => {
 });
 app.post('/deleteresource', async (req, res) => {
     try {
-        console.log(req.body);
         await pool.query(`DELETE from resources where resource_id = '${req.body.resource_id}'`).then(res.send({
             success: true,
             message: 'Resource deleted successfully'
@@ -473,7 +463,6 @@ app.post('/deleteresource', async (req, res) => {
 });
 app.post('/updateresource', async (req, res) => {
     try {
-        console.log(req.body);
         await pool.query(`UPDATE resources 
         SET resource_name = '${req.body.resource_name}', resource_url = '${req.body.resource_url}' 
         where resource_id = '${req.body.resource_id}'`);

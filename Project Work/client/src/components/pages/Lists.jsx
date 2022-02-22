@@ -22,12 +22,7 @@ function Lists() {
     const handleBoardSave = ()=>{
         axios.post('/updatelists', lists);
         NotificationManager.success("Board state saved successfully!", "Notification");
-        console.log(lists);
     }
-    // useEffect(()=>{
-    //     axios.post('/updatelists', lists);
-    //     console.log(lists);
-    // }, [lists]);
     const handleOnDragEnd = async (result)=>{
         if(!result.destination) return;
         const {source, destination} = result;
@@ -78,10 +73,6 @@ function Lists() {
         <DragDropContext onDragEnd={handleOnDragEnd}>
         {Object.entries(lists).map(([id, list])=>
             <List id = {id} key = {id} list = {list} lists = {lists} setLists = {setLists} render = {render} setRender = {setRender}></List>
-        )}
-        {console.log("lists from lists!!!!!")}
-        {Object.entries(lists).map(([id, list])=>
-            console.log(list["_id"])
         )}
         <AddNewList lists = {lists} setLists = {setLists}></AddNewList>
         </DragDropContext>
