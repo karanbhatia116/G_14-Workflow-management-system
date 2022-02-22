@@ -2,10 +2,7 @@
   "name": "Workflow-management-system-chat-server",
   "version": "1.0.0",
   "main": "index.js",
-  "engines": {
-    "node": "*",
-    "npm": "*"
-  },
+  "engines": { "node": ">=12.0.0 <17.5.0", "npm" : "*"},
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

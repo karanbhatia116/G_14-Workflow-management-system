@@ -3,7 +3,7 @@ const app = require('express')();
 const http = require('http').Server(app);
 const multer = require('multer');
 const path = require('path');
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 const dotenv = require('dotenv');
 dotenv.config();
 const io = require('socket.io')(http, {
@@ -475,7 +475,8 @@ app.post('/updateresource', async (req, res) => {
         res.sendStatus(500);
     }
 });
-app.get("*", (req, res) => {
+
+app.get('*', (req, res)=>{
     res.sendFile(path.join(__dirname, "client/build/index.html"));
 });
 
