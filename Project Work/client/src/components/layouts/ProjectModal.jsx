@@ -116,7 +116,6 @@ const ProjectModal = ({ id, isOpen, setOpen, title, setTitle, description, setDe
         setTempDescription(e.target.value);
     }
     const handleDateChange = (e) => {
-        console.log(e.target.value);
         setSelectedDate(e.target.value);
     };
     const handleTeamChange = (e) => {

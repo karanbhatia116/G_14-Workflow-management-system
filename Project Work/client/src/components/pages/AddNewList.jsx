@@ -20,11 +20,6 @@ function AddNewList({lists, setLists}) {
             name: '',
             items: []
         });
-        console.log("column_id: ", response.data.column_id);
-        console.log(typeof(response.data.column_id));
-        console.log("Lists before adding");
-        console.log(lists);
-        console.log(ObjectLength(lists));
         setLists({
                 ...lists,
                 [ObjectLength(lists)]:{

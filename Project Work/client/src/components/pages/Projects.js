@@ -11,14 +11,6 @@ const useStyles = makeStyles({
         marginBottom: 100,
     }
 });
-// useEffect(()=>{
-//     axios.get('/projects').then(res=> {
-//         console.log(res.data);
-//         projectList.push(res.data);
-//         console.log(projectList);
-//     });
-
-// });
 const Projects = () => {
     const classes = useStyles();
     const [projects, setProjects] = useState([]);
@@ -43,7 +35,6 @@ const Projects = () => {
                     //if the the search is wrong then throw warning
                     setProjects([]);
                 } else {
-                    console.log(data);
                     setProjects(data);
                 }
             });

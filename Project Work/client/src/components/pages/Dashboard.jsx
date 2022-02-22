@@ -149,10 +149,6 @@ const Dashboard = () => {
         projectDeadline: new Date()
     }
 
-    useEffect(()=>{
-        console.log(projects);
-    }, [projects]);
-
     useEffect(() => {
         fetch('/findprojects', {
             method: 'GET',
@@ -170,7 +166,6 @@ const Dashboard = () => {
             })
             .then(data => {
                 if (data !== undefined) {
-                    console.log(data);
                     setProjects([...data.slice(0, 3)]);
                     // projects = [...data.slice(0, 3)];
                 }
@@ -198,7 +193,6 @@ const Dashboard = () => {
                     <div className={classes.projects_wrapper}>
                         <Typography style={{ fontSize: 24, marginBottom: 5 }}><b>Current Projects</b></Typography>
                         <div className={classes.projects}>
-                            {console.log(projects)}
                             {/* Map through all project from the backend here and pass as project object*/}
                             {
                                 projects.map((project, index) => {

@@ -137,7 +137,6 @@ function AddUser() {
                 } else {
                     setPwd("");
                     setUsername("");
-                    console.log("User SucessFully Added.");
                 }
             });
     }

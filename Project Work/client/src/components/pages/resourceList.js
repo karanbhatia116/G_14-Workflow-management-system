@@ -21,17 +21,6 @@ function ResourceList() {
       }
     });
   }, []);
-  // useEffect((TodoId)=>{
-  //   console.log(todos);
-  //   if(todos !== [])
-  //   {
-  //     axios.post('/updateresource', {
-  //       resource_id: TodoId,
-  //       resource_name: todos[TodoId].topic,
-  //       resource_url: todos[TodoId].text
-  //   }).then(res=>console.log(res.data));
-  //   }
-  // }, [todos,TodoId]);
 
   const addTodo = todo => {
     if(todo.text.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)===null)
@@ -118,7 +107,7 @@ function ResourceList() {
         resource_id: todoId,
         resource_name: newValue.topic,
         resource_url: newValue.text
-        }).then(res=>console.log(res.data))
+        });
       setTodos(prev => prev.map((item)=>item.id === todoId ? Object.assign({}, item, {text: newValue.text, topic: newValue.topic}): item));
     }
   };
@@ -126,7 +115,7 @@ function ResourceList() {
     const removedArr = [...todos].filter(todo => todo.id !== id);
     axios.post('/deleteresource', {
       resource_id: id
-    }).then(res=> console.log(res.data));
+    });
     setTodos(removedArr);
   };
 
